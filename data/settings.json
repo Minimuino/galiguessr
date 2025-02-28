@@ -1,0 +1,18 @@
+{
+  "modes": [
+    {"name": "point&click", "label": "Sinalar no mapa con marcas"},
+    {"name": "point&click-borderless", "label": "Sinalar no mapa sen marcas"},
+    {"name": "name", "label": "Nomear"},
+    {"name": "choose", "label": "Nomear con lista de opcións"},
+    {"name": "guess", "label": "Adiviñar vendo o plano"}
+  ],
+  "datasets": [
+    {"name": "Comarcas", "data": "comarcas.json", "availableModes": ["point&click", "point&click-borderless", "name", "choose"]},
+    {"name": "Concellos", "data": "concellos.json", "availableModes": ["point&click", "point&click-borderless", "name", "choose"]},
+    {"name": "Vilas e Cidades", "data": "vilas-cidades.json", "availableModes": ["point&click", "point&click-borderless", "name", "choose", "guess"]},
+    {"name": "Ríos", "data": "rios.json", "availableModes": ["point&click", "point&click-borderless", "name", "choose"]},
+    {"name": "Natureza", "data": "natureza.json", "availableModes": ["point&click", "point&click-borderless", "name", "choose"]},
+    {"name": "DOP e IXP", "data": "dop-ixp.json", "availableModes": ["point&click", "point&click-borderless", "name", "choose"]},
+    {"name": "Aleatorio", "data": "", "availableModes": ["point&click-borderless"]}
+  ]
+}
