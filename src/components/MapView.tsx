@@ -3,7 +3,6 @@ import Map, { Source, Layer } from "react-map-gl/maplibre";
 import type { MapLayerMouseEvent } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { FeatureCollection } from "geojson";
-import { throttle } from "lodash";
 import bbox from "@turf/bbox";
 import { hoverLayerStyle, outlineLayerStyle, rightGuessLayerStyle, wrongGuessLayerStyle } from "./mapstyle";
 
@@ -23,7 +22,7 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const [minLng, minLat, maxLng, maxLat] = useMemo(() => bbox(data), []); // Calculate bbox only on first render
 
-  const onHover = throttle((event: MapLayerMouseEvent) => {
+  const onHover = (event: MapLayerMouseEvent) => {
     const { features, target } = event;
     const hoveredFeature = features && features[0];
     if (hoveredFeature) {
@@ -39,7 +38,7 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
         { hover: true }
       );
     }
-  }, 20);
+  };
 
   const onLeave = (event: MapLayerMouseEvent) => {
     const { target } = event;
