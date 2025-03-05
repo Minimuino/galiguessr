@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { MapLayerMouseEvent } from "maplibre-gl";
 import type { FeatureCollection } from "geojson";
@@ -12,15 +13,34 @@ import { shuffle } from "@/utils/ArrayUtils";
 
 const QuestionLabel = dynamic(() => import("@/components/QuestionLabel"), { ssr: false });
 
-import comarcas from "../../../data/geojson/comarcas.json";
-const data = comarcas as FeatureCollection;
-
 export default function Play() {
-  const [featureIds, setFeatureIds] = useState<(string | number | undefined)[]>(shuffle(data.features.map((feature) => feature.id)));
+  const [data, setData] = useState<FeatureCollection | undefined>();
+  const [featureIds, setFeatureIds] = useState<(string | number | undefined)[]>([]);
   const [userGuess, setUserGuess] = useState<string | number | undefined>(undefined);
   const [rightGuessFeatureIds, setRightGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
   const [wrongGuessFeatureIds, setWrongGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
+  const [error, setError] = useState(null);
   const modalRef = useRef<HTMLDialogElement | null>(null);
+
+  const datasetName = useSearchParams().get("dataset");
+  useEffect(() => {
+    import("../../../data/geojson/" + datasetName)
+      .then((geojson) => {
+        const featureCollection: FeatureCollection = geojson.default;
+        setData(featureCollection);
+        setFeatureIds(shuffle(featureCollection.features.map((feature) => feature.id)));
+      })
+      .catch(error => {
+        setError(error);
+      });
+  }, [datasetName]);
+
+  if (error) {
+    return <p className="h-screen flex items-center justify-center">{String(error)}</p>;
+  }
+  if (!data) {
+    return <p className="h-screen flex items-center justify-center">Loading...</p>;
+  }
 
   /*
   const handleTextInput = (input: string) => {

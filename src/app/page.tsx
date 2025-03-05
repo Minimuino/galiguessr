@@ -105,7 +105,13 @@ export default function Home() {
           {selectedMode && (
             <Link
               className="highlighted-button"
-              href="/play"
+              href={{
+                pathname: "/play",
+                query: {
+                  dataset: selectedDataset?.data,
+                  mode: selectedMode?.name
+                },
+              }}
             >
               Xogar!
             </Link>
