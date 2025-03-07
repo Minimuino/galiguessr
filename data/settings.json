@@ -1,18 +1,18 @@
 {
   "modes": [
     {"name": "point-and-click", "label": "Sinalar no mapa con marcas"},
-    {"name": "point-and-click-borderless", "label": "Sinalar no mapa sen marcas"},
+    {"name": "guess-location", "label": "Sinalar no mapa sen marcas"},
     {"name": "write-name", "label": "Nomear"},
-    {"name": "choose", "label": "Nomear con lista de opcións"},
-    {"name": "guess", "label": "Adiviñar vendo o plano"}
+    {"name": "choose-option", "label": "Nomear con lista de opcións"},
+    {"name": "city-map", "label": "Adiviñar vendo o plano"}
   ],
   "datasets": [
-    {"name": "Comarcas", "data": "comarcas.json", "availableModes": ["point-and-click", "point-and-click-borderless", "write-name", "choose"]},
-    {"name": "Concellos", "data": "concellos.json", "availableModes": ["point-and-click", "point-and-click-borderless", "write-name", "choose"]},
-    {"name": "Vilas e Cidades", "data": "vilas-cidades.json", "availableModes": ["point-and-click", "point-and-click-borderless", "write-name", "choose", "guess"]},
-    {"name": "Ríos", "data": "rios.json", "availableModes": ["point-and-click", "point-and-click-borderless", "write-name", "choose"]},
-    {"name": "Natureza", "data": "natureza.json", "availableModes": ["point-and-click", "point-and-click-borderless", "write-name", "choose"]},
-    {"name": "DOP e IXP", "data": "dop-ixp.json", "availableModes": ["point-and-click", "point-and-click-borderless", "write-name", "choose"]},
-    {"name": "Aleatorio", "data": "", "availableModes": ["point-and-click-borderless"]}
+    {"name": "Comarcas", "data": "comarcas.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option"]},
+    {"name": "Concellos", "data": "concellos.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option"]},
+    {"name": "Vilas e Cidades", "data": "vilas-cidades.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option", "city-map"]},
+    {"name": "Ríos", "data": "rios.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option"]},
+    {"name": "Natureza", "data": "natureza.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option"]},
+    {"name": "DOP e IXP", "data": "dop-ixp.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option"]},
+    {"name": "Aleatorio", "data": "", "availableModes": ["guess-location"]}
   ]
 }

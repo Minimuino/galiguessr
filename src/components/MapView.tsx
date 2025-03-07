@@ -1,6 +1,6 @@
 import { useRef, useMemo } from "react";
 import Map, { Source, Layer } from "react-map-gl/maplibre";
-import type { MapLayerMouseEvent } from "react-map-gl/maplibre";
+import type { MapLayerMouseEvent, MapRef } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { FeatureCollection } from "geojson";
 import bbox from "@turf/bbox";
@@ -9,18 +9,30 @@ import { hoverLayerStyle, outlineLayerStyle, rightGuessLayerStyle, wrongGuessLay
 const clampLng = (lng: number) => Math.min(Math.max(lng, -180.0), 180.0);
 const clampLat = (lat: number) => Math.min(Math.max(lat, -90.0), 90.0);
 
+const setHoverFeatureState = (map: maplibregl.Map | MapRef | null, highlightedFeatureId: string | number | undefined) => {
+  if (highlightedFeatureId) {
+    map?.setFeatureState(
+      { source: "hoverable", id: highlightedFeatureId },
+      { hover: true }
+    );
+  }
+}
+
 interface Props {
   data: FeatureCollection;
   pendingGuessFeatures: FeatureCollection | undefined;
   rightGuessFeatures: FeatureCollection | undefined;
   wrongGuessFeatures: FeatureCollection | undefined;
-  onClick: (event: MapLayerMouseEvent) => void;
+  interactive: boolean;
+  highlightedFeatureId: string | number | undefined;
+  onClick?: (event: MapLayerMouseEvent) => void;
 }
 
-export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures, wrongGuessFeatures, onClick }: Props) {
+export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures, wrongGuessFeatures, highlightedFeatureId, interactive, onClick }: Props) {
   const hoveredFeatureId = useRef<string | number | undefined>(undefined);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const [minLng, minLat, maxLng, maxLat] = useMemo(() => bbox(data), []); // Calculate bbox only on first render
+  const mapRef = useRef<MapRef | null>(null);
 
   const onHover = (event: MapLayerMouseEvent) => {
     const { features, target } = event;
@@ -51,6 +63,8 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
     hoveredFeatureId.current = undefined;
   };
 
+  setHoverFeatureState(mapRef.current, highlightedFeatureId);
+
   return (
     <Map
       initialViewState={{
@@ -65,10 +79,12 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
       dragRotate={false}
       cursor="default"
       mapStyle="https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json"
-      interactiveLayerIds={["data"]}
+      interactiveLayerIds={(interactive) ? ["hoverableLayer"] : undefined}
       onMouseMove={onHover}
       onMouseLeave={onLeave}
       onClick={onClick}
+      onLoad={event => setHoverFeatureState(event.target, highlightedFeatureId)}
+      ref={mapRef}
     >
       {pendingGuessFeatures && (
         <Source id="hoverable" type="geojson" data={pendingGuessFeatures}>

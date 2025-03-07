@@ -23,8 +23,6 @@ export default function Home() {
   const [selectedDataset, setSelectedDataset] = useState<Dataset>();
   const [selectedMode, setSelectedMode] = useState<Mode>();
 
-  // First validate all datasets are well formed geojsons
-
   const onClickStart = () => {
     setShowMenu(true);
   };

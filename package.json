@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@turf/bbox": "^7.2.0",
+    "fastest-levenshtein": "^1.0.16",
     "maplibre-gl": "^5.1.0",
     "next": "15.1.6",
     "react": "^19.0.0",

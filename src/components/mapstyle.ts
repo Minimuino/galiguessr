@@ -1,7 +1,7 @@
 import type { LayerProps } from 'react-map-gl/maplibre';
 
 export const hoverLayerStyle: LayerProps = {
-  id: "data",
+  id: "hoverableLayer",
   type: "fill",
   paint: {
     "fill-color": "#2a84a1",
@@ -16,7 +16,7 @@ export const hoverLayerStyle: LayerProps = {
 };
 
 export const outlineLayerStyle: LayerProps = {
-  id: "outline",
+  id: "outlineLayer",
   type: "line",
   paint: {
     "line-width": 1,
@@ -25,7 +25,7 @@ export const outlineLayerStyle: LayerProps = {
 };
 
 export const rightGuessLayerStyle: LayerProps = {
-  id: "rightGuess",
+  id: "rightGuessLayer",
   type: "fill",
   paint: {
     "fill-color": "#1e9622",
@@ -34,7 +34,7 @@ export const rightGuessLayerStyle: LayerProps = {
 };
 
 export const wrongGuessLayerStyle: LayerProps = {
-  id: "wrongGuess",
+  id: "wrongGuessLayer",
   type: "fill",
   paint: {
     "fill-color": "#961e1e",
