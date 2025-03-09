@@ -1,0 +1,14 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-8.5061,42.8946],[-8.5737,42.8962],[-8.5741,42.8644],[-8.506,42.8642],[-8.5061,42.8946]]]},"properties":{"name":"Santiago de Compostela"},"id":1},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-7.5931,43.0334],[-7.5923,42.9882],[-7.5244,42.988],[-7.5253,43.0336],[-7.5931,43.0334]]]},"properties":{"name":"Lugo"},"id":2},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-8.4462,43.4029],[-8.4442,43.3402],[-8.3643,43.3409],[-8.3657,43.4016],[-8.4462,43.4029]]]},"properties":{"name":"A Coruña"},"id":3},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-7.8849,42.3656],[-7.8843,42.3156],[-7.8348,42.3168],[-7.8362,42.3661],[-7.8849,42.3656]]]},"properties":{"name":"Ourense"},"id":4},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-8.6539,42.2698],[-8.8073,42.268],[-8.8076,42.193],[-8.6556,42.1923],[-8.6539,42.2698]]]},"properties":{"name":"Vigo"},"id":5},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-8.6166,42.4486],[-8.6643,42.4484],[-8.6655,42.415],[-8.6176,42.4149],[-8.6166,42.4486]]]},"properties":{"name":"Pontevedra"},"id":6},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-8.278,43.5124],[-8.2799,43.4606],[-8.1729,43.461],[-8.1775,43.5123],[-8.278,43.5124]]]},"properties":{"name":"Ferrol"},"id":7},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-8.2199,43.2892],[-8.2196,43.274],[-8.2029,43.2736],[-8.2043,43.2888],[-8.2199,43.2892]]]},"properties":{"name":"Betanzos"},"id":8},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-8.6534,42.0568],[-8.6537,42.0396],[-8.6352,42.0396],[-8.6354,42.0571],[-8.6534,42.0568]]]},"properties":{"name":"Tui"},"id":9},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-7.809,42.1941],[-7.8089,42.1862],[-7.7954,42.1862],[-7.7956,42.194],[-7.809,42.1941]]]},"properties":{"name":"Allariz"},"id":10},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-7.3741,43.4353],[-7.3749,43.4229],[-7.3499,43.4231],[-7.3503,43.4358],[-7.3741,43.4353]]]},"properties":{"name":"Mondoñedo"},"id":11},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-7.069,43.5624],[-7.0699,43.5239],[-7.0253,43.5233],[-7.0249,43.5622],[-7.069,43.5624]]]},"properties":{"name":"Ribadeo"},"id":12}
+]}

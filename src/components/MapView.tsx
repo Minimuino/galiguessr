@@ -5,9 +5,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import type { FeatureCollection } from "geojson";
 import bbox from "@turf/bbox";
 import { hoverLayerStyle, outlineLayerStyle, rightGuessLayerStyle, wrongGuessLayerStyle } from "./mapstyle";
-
-const clampLng = (lng: number) => Math.min(Math.max(lng, -180.0), 180.0);
-const clampLat = (lat: number) => Math.min(Math.max(lat, -90.0), 90.0);
+import { clampLat, clampLng } from "@/utils/MapUtils";
 
 const setHoverFeatureState = (map: maplibregl.Map | MapRef | null, highlightedFeatureId: string | number | undefined) => {
   if (highlightedFeatureId) {

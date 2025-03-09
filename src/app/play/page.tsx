@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import type { FeatureCollection } from "geojson";
 import StandardQuiz from "@/components/StandardQuiz";
+import CityMapQuiz from "@/components/CityMapQuiz";
 import { Mode } from "@/app/enums";
 
 export default function Play() {
@@ -32,6 +33,12 @@ export default function Play() {
   // Validate datasets are well formed geojsons with id and name fields
 
   const mode = (queryParams.get("mode") || Mode.PointAndClick) as Mode;
+  if (mode === "city-map") {
+    return <CityMapQuiz
+      data={data}
+      onResetGame={() => window.location.reload()}
+    />;
+  }
   return <StandardQuiz
     data={data}
     mode={mode}
