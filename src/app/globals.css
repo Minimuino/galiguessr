@@ -6,7 +6,7 @@
   --background: #ffffff;
   --foreground: #171717;
   --galician-blue: #0099cc;
-  --custom-blue: #00c1ff;
+  --custom-blue: #38cdff;
 }
 
 body {
@@ -20,5 +20,5 @@ body {
 }
 
 .highlighted-button {
-  @apply rounded-full border-2 border-solid border-[#47d2ff] transition-colors flex items-center justify-center hover:bg-[#47d2ff] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44;
+  @apply rounded-full border-2 border-solid border-[var(--custom-blue)] transition-colors flex items-center justify-center hover:bg-[var(--custom-blue)] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44;
 }

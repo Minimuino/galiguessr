@@ -40,7 +40,7 @@ export default function Home() {
         <Image
           src="/logo.svg"
           alt="Galiguessr logo"
-          width={380}
+          width={450}
           height={76}
           priority
         />
@@ -63,7 +63,7 @@ export default function Home() {
                 <label
                   key={index}
                   className="basic-button"
-                  style={{ backgroundColor: selectedDataset?.name === item.name ? "#47d2ff" : "" }}
+                  style={{ backgroundColor: selectedDataset?.name === item.name ? "var(--custom-blue)" : "" }}
                 >
                   <input
                     type="radio"
@@ -85,7 +85,7 @@ export default function Home() {
                   <label
                     key={index}
                     className="basic-button"
-                    style={{ backgroundColor: selectedMode?.name === mode.name ? "#47d2ff" : "" }}
+                    style={{ backgroundColor: selectedMode?.name === mode.name ? "var(--custom-blue)" : "" }}
                   >
                     <input
                       type="radio"
@@ -155,7 +155,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/globe.svg"
+            src="/file.svg"
             alt="Credits icon"
             width={16}
             height={16}
