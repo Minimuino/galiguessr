@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import type { FeatureCollection } from "geojson";
-import StandardQuiz from "@/components/StandardQuiz";
-import CityMapQuiz from "@/components/CityMapQuiz";
 import { Mode } from "@/app/enums";
+import StandardQuiz from "@/components/StandardQuiz";
+import GuessLocationQuiz from "@/components/GuessLocationQuiz";
+import CityMapQuiz from "@/components/CityMapQuiz";
 
 export default function Play() {
   const [data, setData] = useState<FeatureCollection | undefined>();
@@ -35,6 +36,12 @@ export default function Play() {
   const mode = (queryParams.get("mode") || Mode.PointAndClick) as Mode;
   if (mode === "city-map") {
     return <CityMapQuiz
+      data={data}
+      onResetGame={() => window.location.reload()}
+    />;
+  }
+  if (mode === "guess-location") {
+    return <GuessLocationQuiz
       data={data}
       onResetGame={() => window.location.reload()}
     />;
