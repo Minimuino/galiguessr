@@ -4,7 +4,15 @@ import type { MapLayerMouseEvent, MapRef } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { FeatureCollection } from "geojson";
 import bbox from "@turf/bbox";
-import { hoverLayerStyle, outlineLayerStyle, rightGuessLayerStyle, wrongGuessLayerStyle } from "./mapstyle";
+import {
+  hoverPolygonLayerStyle,
+  hoverLineLayerStyle,
+  outlinePolygonLayerStyle,
+  rightGuessPolygonLayerStyle,
+  rightGuessLineLayerStyle,
+  wrongGuessPolygonLayerStyle,
+  wrongGuessLineLayerStyle
+} from "./mapstyle";
 import { clampLat, clampLng } from "@/utils/MapUtils";
 
 const setHoverFeatureState = (map: maplibregl.Map | MapRef | null, highlightedFeatureId: string | number | undefined) => {
@@ -77,7 +85,7 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
       dragRotate={false}
       cursor="default"
       mapStyle="https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json"
-      interactiveLayerIds={(interactive) ? ["hoverableLayer"] : undefined}
+      interactiveLayerIds={(interactive) ? ["hoverablePolygonLayer", "hoverableLineLayer"] : undefined}
       onMouseMove={onHover}
       onMouseLeave={onLeave}
       onClick={onClick}
@@ -86,21 +94,24 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
     >
       {pendingGuessFeatures && (
         <Source id="hoverable" type="geojson" data={pendingGuessFeatures}>
-          <Layer {...hoverLayerStyle} />
+          <Layer {...hoverPolygonLayerStyle} />
+          <Layer {...hoverLineLayerStyle} />
         </Source>
       )}
       {rightGuessFeatures && (
         <Source id="rightGuess" type="geojson" data={rightGuessFeatures}>
-          <Layer {...rightGuessLayerStyle} />
+          <Layer {...rightGuessPolygonLayerStyle} />
+          <Layer {...rightGuessLineLayerStyle} />
         </Source>
       )}
       {wrongGuessFeatures && (
         <Source id="wrongGuess" type="geojson" data={wrongGuessFeatures}>
-          <Layer {...wrongGuessLayerStyle} />
+          <Layer {...wrongGuessPolygonLayerStyle} />
+          <Layer {...wrongGuessLineLayerStyle} />
         </Source>
       )}
       <Source id="outline" type="geojson" data={data}>
-        <Layer {...outlineLayerStyle} />
+        <Layer {...outlinePolygonLayerStyle} />
       </Source>
     </Map>
   );
