@@ -22,7 +22,7 @@ export const outlinePolygonLayerStyle: LayerProps = {
   filter: ["in", "$type", "Polygon"],
   paint: {
     "line-width": 1,
-    "line-color": "#075c8a",
+    "line-color": "#075c8a"
   }
 };
 
@@ -95,5 +95,47 @@ export const wrongGuessLineLayerStyle: LayerProps = {
   paint: {
     "line-width": 4,
     "line-color": "#961e1e",
+  }
+};
+
+export const hoverPointLayerStyle: LayerProps = {
+  id: "hoverablePointLayer",
+  type: "circle",
+  filter: ["in", "$type", "Point"],
+  paint: {
+    "circle-radius": [
+      "case",
+      ["boolean", ["feature-state", "hover"], false],
+      15,
+      10
+    ],
+    "circle-color": [
+      "case",
+      ["boolean", ["feature-state", "hover"], false],
+      "#2a84a1",
+      "#7bb3c3"
+    ],
+    "circle-stroke-width": 2,
+    "circle-stroke-color": "#075c8a"
+  }
+};
+
+export const rightGuessPointLayerStyle: LayerProps = {
+  id: "rightGuessPointLayer",
+  type: "circle",
+  filter: ["in", "$type", "Point"],
+  paint: {
+    "circle-radius": 10,
+    "circle-color": "#1e9622",
+  }
+};
+
+export const wrongGuessPointLayerStyle: LayerProps = {
+  id: "wrongGuessPointLayer",
+  type: "circle",
+  filter: ["in", "$type", "Point"],
+  paint: {
+    "circle-radius": 10,
+    "circle-color": "#961e1e",
   }
 };

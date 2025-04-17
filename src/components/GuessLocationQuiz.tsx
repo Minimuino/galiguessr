@@ -9,7 +9,7 @@ import GameOverModal from "@/components/GameOverModal";
 import DistanceLabel from "@/components/DistanceLabel";
 import { shuffle } from "@/utils/ArrayUtils";
 import { clampLat, clampLng, getDistanceToCurrentFeature } from "@/utils/MapUtils";
-import { hoverPolygonLayerStyle, hoverLineLayerStyle, outlinePolygonLayerStyle } from "./mapstyle";
+import { hoverPolygonLayerStyle, hoverLineLayerStyle, hoverPointLayerStyle, outlinePolygonLayerStyle } from "./mapstyle";
 import styles from "./styles.module.css";
 
 const QuestionLabel = dynamic(() => import("@/components/QuestionLabel"), { ssr: false });
@@ -88,6 +88,7 @@ export default function GuessLocationQuiz({ data, onResetGame }: Props) {
             <Source id="hoverable" type="geojson" data={{ features: features.slice(-1), type: "FeatureCollection" }}>
               <Layer {...hoverPolygonLayerStyle} />
               <Layer {...hoverLineLayerStyle} />
+              <Layer {...hoverPointLayerStyle} />
             </Source>
             <Source id="outline" type="geojson" data={{ features: features.slice(-1), type: "FeatureCollection" }}>
               <Layer {...outlinePolygonLayerStyle} />

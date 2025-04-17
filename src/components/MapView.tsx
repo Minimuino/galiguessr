@@ -7,16 +7,19 @@ import bbox from "@turf/bbox";
 import {
   hoverPolygonLayerStyle,
   hoverLineLayerStyle,
+  hoverPointLayerStyle,
   outlinePolygonLayerStyle,
   rightGuessPolygonLayerStyle,
   rightGuessLineLayerStyle,
+  rightGuessPointLayerStyle,
   wrongGuessPolygonLayerStyle,
-  wrongGuessLineLayerStyle
+  wrongGuessLineLayerStyle,
+  wrongGuessPointLayerStyle
 } from "./mapstyle";
 import { clampLat, clampLng } from "@/utils/MapUtils";
 
 const setHoverFeatureState = (map: maplibregl.Map | MapRef | null, highlightedFeatureId: string | number | undefined) => {
-  if (highlightedFeatureId) {
+  if (highlightedFeatureId != null) {
     map?.setFeatureState(
       { source: "hoverable", id: highlightedFeatureId },
       { hover: true }
@@ -44,7 +47,7 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
     const { features, target } = event;
     const hoveredFeature = features && features[0];
     if (hoveredFeature) {
-      if (hoveredFeatureId.current && hoveredFeatureId.current !== hoveredFeature.id) {
+      if (hoveredFeatureId.current != null && hoveredFeatureId.current !== hoveredFeature.id) {
         target.setFeatureState(
           { source: "hoverable", id: hoveredFeatureId.current },
           { hover: false }
@@ -60,7 +63,7 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
 
   const onLeave = (event: MapLayerMouseEvent) => {
     const { target } = event;
-    if (hoveredFeatureId.current) {
+    if (hoveredFeatureId.current != null) {
       target.setFeatureState(
         { source: "hoverable", id: hoveredFeatureId.current },
         { hover: false }
@@ -85,7 +88,7 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
       dragRotate={false}
       cursor="default"
       mapStyle="https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json"
-      interactiveLayerIds={(interactive) ? ["hoverablePolygonLayer", "hoverableLineLayer"] : undefined}
+      interactiveLayerIds={(interactive) ? ["hoverablePolygonLayer", "hoverableLineLayer", "hoverablePointLayer"] : undefined}
       onMouseMove={onHover}
       onMouseLeave={onLeave}
       onClick={onClick}
@@ -96,18 +99,21 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
         <Source id="hoverable" type="geojson" data={pendingGuessFeatures}>
           <Layer {...hoverPolygonLayerStyle} />
           <Layer {...hoverLineLayerStyle} />
+          <Layer {...hoverPointLayerStyle} />
         </Source>
       )}
       {rightGuessFeatures && (
         <Source id="rightGuess" type="geojson" data={rightGuessFeatures}>
           <Layer {...rightGuessPolygonLayerStyle} />
           <Layer {...rightGuessLineLayerStyle} />
+          <Layer {...rightGuessPointLayerStyle} />
         </Source>
       )}
       {wrongGuessFeatures && (
         <Source id="wrongGuess" type="geojson" data={wrongGuessFeatures}>
           <Layer {...wrongGuessPolygonLayerStyle} />
           <Layer {...wrongGuessLineLayerStyle} />
+          <Layer {...wrongGuessPointLayerStyle} />
         </Source>
       )}
       <Source id="outline" type="geojson" data={data}>
