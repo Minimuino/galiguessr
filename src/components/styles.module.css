@@ -4,10 +4,11 @@
   padding-right: 1.25rem;
   justify-content: center;
   align-items: center;
-  border-radius: 9999px;
+  border-radius: 15px;
   border-width: 2px;
   border-style: solid;
   height: 3rem;
+  min-width: 12rem;
   font-size: 1.125rem;
   line-height: 1.75rem;
   background-color: #ffffff;
@@ -22,4 +23,51 @@
     font-size: 1.25rem;
     line-height: 1.75rem;
   }
+}
+
+.questionlabel-disabled {
+  background-color: transparent;
+  border-color: grey;
+  box-shadow: none;
+}
+
+.quizbutton {
+  display: flex;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9999px;
+  border-width: 2px;
+  border-style: solid;
+  height: 3rem;
+  font-size: inherit;
+  line-height: 1.75rem;
+  background-color: #ffffff;
+  user-select: none;
+  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1), 0 0 10px 2px rgba(0, 0, 0, 0.05);
+  border-color: var(--galician-blue);
+
+  @media (min-width: 640px) {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+    height: 4.0rem;
+    font-size: inherit;
+    line-height: 1.75rem;
+  }
+}
+
+.quizbutton:hover {
+  background-color: #f2f2f2;
+}
+
+.textinput {
+  width: 24rem;
+  @apply questionlabel;
+}
+
+.textinput:focus {
+  outline-style: solid;
+  outline-color: var(--galician-blue);
+  outline-width: 2px;
 }

@@ -1,85 +1,94 @@
 "use client";
 
-import { useState, useRef } from "react";
-import dynamic from "next/dynamic";
-import "maplibre-gl/dist/maplibre-gl.css";
-import { MapLayerMouseEvent } from "maplibre-gl";
-import type { FeatureCollection } from "geojson";
-import MapView from "@/components/MapView";
-import ScoreLabel from "@/components/ScoreLabel";
-import GameOverModal from "@/components/GameOverModal";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import type { FeatureCollection, Feature } from "geojson";
+import { Mode } from "@/app/enums";
+import StandardQuiz from "@/components/StandardQuiz";
+import GuessLocationQuiz from "@/components/GuessLocationQuiz";
+import CityMapQuiz from "@/components/CityMapQuiz";
 import { shuffle } from "@/utils/ArrayUtils";
 
-const QuestionLabel = dynamic(() => import("@/components/QuestionLabel"), { ssr: false });
+const selectRandomData = async (): Promise<FeatureCollection> => {
+  const settingsJson = await import("../../../data/settings.json");
+  let features: Feature[] = [];
 
-import comarcas from "../../../data/geojson/comarcas.json";
-const data = comarcas as FeatureCollection;
+  const datasets = settingsJson.datasets;
+  for (let i = 0; i < datasets.length; i++) {
+    if (datasets.at(i)?.data === "random") {
+      continue;
+    }
+    const geojson = await import("../../../data/geojson/" + datasets.at(i)?.data);
+    const featureCollection: FeatureCollection = structuredClone(geojson.default);
+    featureCollection.features.forEach(feature => {
+      feature.properties = feature.properties ?? {};
+      feature.properties.name = datasets.at(i)?.name + ": " + (feature.properties?.name ?? '');
+    });
+    features = features.concat(featureCollection.features);
+  }
+
+  shuffle(features);
+  features = features.slice(0, 100);
+
+  let id = 0;
+  features.forEach(feature => {
+    feature.id = id;
+    id++;
+  });
+  return { type: "FeatureCollection", features: features };
+}
 
 export default function Play() {
-  const [featureIds, setFeatureIds] = useState<(string | number | undefined)[]>(shuffle(data.features.map((feature) => feature.id)));
-  const [userGuess, setUserGuess] = useState<string | number | undefined>(undefined);
-  const [rightGuessFeatureIds, setRightGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
-  const [wrongGuessFeatureIds, setWrongGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
-  const modalRef = useRef<HTMLDialogElement | null>(null);
+  const [data, setData] = useState<FeatureCollection | undefined>();
+  const [error, setError] = useState(null);
+  const queryParams = useSearchParams();
 
-  /*
-  const handleTextInput = (input: string) => {
-    setUserGuess(input);
-  }*/
-  const handleMouseClick = (event: MapLayerMouseEvent) => {
-    const clickedFeature = event.features && event.features[0];
-    if (clickedFeature != null) {
-      setUserGuess(clickedFeature.id);
-    }
-  }
-  const resetState = () => {
-    setFeatureIds(shuffle(data.features.map((feature) => feature.id)));
-    setUserGuess(undefined);
-    setRightGuessFeatureIds([]);
-    setWrongGuessFeatureIds([]);
-    modalRef.current?.close();
-  }
-
-  if (userGuess != null) {
-    const currentFeatureId = featureIds.at(-1);
-    if (userGuess === currentFeatureId) {
-      rightGuessFeatureIds.push(currentFeatureId);
+  useEffect(() => {
+    if (queryParams.get("dataset") === "random") {
+      selectRandomData()
+        .then((featureCollection) => {
+          setData(featureCollection);
+        })
+        .catch(error => {
+          setError(error);
+        });
     } else {
-      wrongGuessFeatureIds.push(currentFeatureId);
+      import("../../../data/geojson/" + queryParams.get("dataset"))
+        .then((geojson) => {
+          const featureCollection: FeatureCollection = geojson.default;
+          setData(featureCollection);
+        })
+        .catch(error => {
+          setError(error);
+        });
     }
-    featureIds.pop();
-    setUserGuess(undefined);
+  }, [queryParams]);
+
+  if (error) {
+    return <p className="h-screen flex items-center justify-center">{String(error)}</p>;
+  }
+  if (!data) {
+    return <p className="h-screen flex items-center justify-center">Loading...</p>;
   }
 
-  if (featureIds.length === 0) {
-    modalRef.current?.showModal();
-  }
+  // Validate datasets are well formed geojsons with id and name fields
 
-  return (
-    <div className="h-screen flex items-center justify-center">
-      <MapView
-        data={data}
-        pendingGuessFeatures={{ features: data.features.filter((feature) => featureIds.includes(feature.id)), type: "FeatureCollection" }}
-        rightGuessFeatures={{ features: data.features.filter((feature) => rightGuessFeatureIds.includes(feature.id)), type: "FeatureCollection" }}
-        wrongGuessFeatures={{ features: data.features.filter((feature) => wrongGuessFeatureIds.includes(feature.id)), type: "FeatureCollection" }}
-        onClick={handleMouseClick}
-      />
-      <div className="absolute bottom-[6%] sm:bottom-[15%] left-50 sm:left-[10%]">
-        <QuestionLabel
-          textToDisplay={data.features.find(feature => feature.id === featureIds.at(-1))?.properties?.name}
-        />
-        <ScoreLabel
-          score={rightGuessFeatureIds.length}
-          total={data.features.length}
-        />
-      </div>
-      <GameOverModal
-        score={rightGuessFeatureIds.length}
-        datasetName="datasetName"
-        modeName="modeName"
-        playAgainCallback={resetState}
-        ref={modalRef}
-      />
-    </div>
-  );
+  const mode = (queryParams.get("mode") || Mode.PointAndClick) as Mode;
+  if (mode === "city-map") {
+    return <CityMapQuiz
+      data={data}
+      onResetGame={() => window.location.reload()}
+    />;
+  }
+  if (mode === "guess-location") {
+    return <GuessLocationQuiz
+      data={data}
+      onResetGame={() => window.location.reload()}
+    />;
+  }
+  return <StandardQuiz
+    data={data}
+    mode={mode}
+    onResetGame={() => window.location.reload()}
+  />;
 }
