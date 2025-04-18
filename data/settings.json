@@ -12,7 +12,6 @@
     {"name": "Vilas e Cidades", "data": "vilas-cidades.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option", "city-map"]},
     {"name": "Ríos", "data": "rios.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option"]},
     {"name": "Natureza", "data": "natureza.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option"]},
-    {"name": "DOP e IXP", "data": "dop-ixp.json", "availableModes": ["point-and-click", "guess-location", "write-name", "choose-option"]},
-    {"name": "Aleatorio", "data": "", "availableModes": ["guess-location"]}
+    {"name": "100 ao azar", "data": "random", "availableModes": ["point-and-click","guess-location"]}
   ]
 }

@@ -2,11 +2,41 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import type { FeatureCollection } from "geojson";
+import type { FeatureCollection, Feature } from "geojson";
 import { Mode } from "@/app/enums";
 import StandardQuiz from "@/components/StandardQuiz";
 import GuessLocationQuiz from "@/components/GuessLocationQuiz";
 import CityMapQuiz from "@/components/CityMapQuiz";
+import { shuffle } from "@/utils/ArrayUtils";
+
+const selectRandomData = async (): Promise<FeatureCollection> => {
+  const settingsJson = await import("../../../data/settings.json");
+  let features: Feature[] = [];
+
+  const datasets = settingsJson.datasets;
+  for (let i = 0; i < datasets.length; i++) {
+    if (datasets.at(i)?.data === "random") {
+      continue;
+    }
+    const geojson = await import("../../../data/geojson/" + datasets.at(i)?.data);
+    const featureCollection: FeatureCollection = structuredClone(geojson.default);
+    featureCollection.features.forEach(feature => {
+      feature.properties = feature.properties ?? {};
+      feature.properties.name = datasets.at(i)?.name + ": " + (feature.properties?.name ?? '');
+    });
+    features = features.concat(featureCollection.features);
+  }
+
+  shuffle(features);
+  features = features.slice(0, 100);
+
+  let id = 0;
+  features.forEach(feature => {
+    feature.id = id;
+    id++;
+  });
+  return { type: "FeatureCollection", features: features };
+}
 
 export default function Play() {
   const [data, setData] = useState<FeatureCollection | undefined>();
@@ -14,14 +44,24 @@ export default function Play() {
   const queryParams = useSearchParams();
 
   useEffect(() => {
-    import("../../../data/geojson/" + queryParams.get("dataset"))
-      .then((geojson) => {
-        const featureCollection: FeatureCollection = geojson.default;
-        setData(featureCollection);
-      })
-      .catch(error => {
-        setError(error);
-      });
+    if (queryParams.get("dataset") === "random") {
+      selectRandomData()
+        .then((featureCollection) => {
+          setData(featureCollection);
+        })
+        .catch(error => {
+          setError(error);
+        });
+    } else {
+      import("../../../data/geojson/" + queryParams.get("dataset"))
+        .then((geojson) => {
+          const featureCollection: FeatureCollection = geojson.default;
+          setData(featureCollection);
+        })
+        .catch(error => {
+          setError(error);
+        });
+    }
   }, [queryParams]);
 
   if (error) {
