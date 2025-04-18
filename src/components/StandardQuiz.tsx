@@ -56,7 +56,7 @@ export default function StandardQuiz({ data, mode, onResetGame }: Props) {
     }
     featureIds.pop();
     setUserGuess(undefined);
-    questionHistory.push({ featureName: featureNamesById.get(currentFeatureId), isCorrect: isCorrect });
+    questionHistory.unshift({ featureName: featureNamesById.get(currentFeatureId), isCorrect: isCorrect });
   }
 
   if (featureIds.length === 0) {
@@ -82,7 +82,7 @@ export default function StandardQuiz({ data, mode, onResetGame }: Props) {
         )}
         {mode === Mode.WriteName && (
           <>
-            <ul className="translate-x-6">
+            <ul className="translate-x-6 max-h-24 sm:max-h-[400px] overflow-auto flex flex-col-reverse">
               {questionHistory.map((item: QuestionHistoryEntry, index: number) => (
                 <li key={index} className={(item.isCorrect) ? "text-green-700" : "text-red-700"}>
                   {item.featureName}

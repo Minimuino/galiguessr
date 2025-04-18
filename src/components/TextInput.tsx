@@ -26,7 +26,7 @@ export default function TextInput({ onEnterText }: Props) {
           autoFocus
         />
         <button
-          className="rounded-full transition-colors flex items-center justify-center bg-[var(--galician-blue)] hover:bg-[var(--custom-blue)] h-10 sm:h-12 px-3 sm:px-4 absolute right-1"
+          className="rounded-[13px] transition-colors flex items-center justify-center bg-[var(--galician-blue)] hover:bg-[var(--custom-blue)] h-10 sm:h-12 px-3 sm:px-4 absolute right-1"
           type="submit"
         >
           <Image

@@ -14,6 +14,17 @@ import styles from "./styles.module.css";
 
 const QuestionLabel = dynamic(() => import("@/components/QuestionLabel"), { ssr: false });
 
+const apply_threshold = (distance: number, geometryType: string): number => {
+  const thresholds_km = [
+    { type: "Point", threshold: 1.5 },
+    { type: "MultiPoint", threshold: 1 },
+    { type: "LineString", threshold: 1 },
+    { type: "MultiLineString", threshold: 1 }
+  ];
+  const t = thresholds_km.find(threshold => threshold.type === geometryType);
+  return (t != null && distance < t.threshold) ? 0 : distance;
+};
+
 interface Props {
   data: FeatureCollection;
   onResetGame: () => void;
@@ -49,15 +60,14 @@ export default function GuessLocationQuiz({ data, onResetGame }: Props) {
       throw new Error('Current feature geometry is undefined');
     }
     const { distance, linestring } = getDistanceToCurrentFeature(currentFeatureGeometry, userGuess);
-    currentDistanceKm = distance;
+    currentDistanceKm = apply_threshold(distance, currentFeatureGeometry.type);
     distanceLine = linestring;
     if (currentDistanceKm > 0) {
-      mapRef.current?.fitBounds([
-        Math.min(linestring.coordinates[0][0], linestring.coordinates[1][0]),
-        Math.min(linestring.coordinates[0][1], linestring.coordinates[1][1]),
-        Math.max(linestring.coordinates[0][0], linestring.coordinates[1][0]),
-        Math.max(linestring.coordinates[0][1], linestring.coordinates[1][1]),
-      ], { padding: 225, duration: 1000 });
+      const [currentMinLng, currentMinLat, currentMaxLng, currentMaxLat] = bbox({
+        type: "GeometryCollection",
+        geometries: [currentFeatureGeometry, distanceLine]
+      });
+      mapRef.current?.fitBounds([currentMinLng, currentMinLat, currentMaxLng, currentMaxLat], { padding: 125, duration: 1000 });
     }
   }
 
@@ -85,14 +95,6 @@ export default function GuessLocationQuiz({ data, onResetGame }: Props) {
       >
         {userGuess && (
           <>
-            <Source id="hoverable" type="geojson" data={{ features: features.slice(-1), type: "FeatureCollection" }}>
-              <Layer {...hoverPolygonLayerStyle} />
-              <Layer {...hoverLineLayerStyle} />
-              <Layer {...hoverPointLayerStyle} />
-            </Source>
-            <Source id="outline" type="geojson" data={{ features: features.slice(-1), type: "FeatureCollection" }}>
-              <Layer {...outlinePolygonLayerStyle} />
-            </Source>
             <Source id="distance-line" type="geojson" data={distanceLine}>
               <Layer
                 id="distanceLineLayer"
@@ -101,6 +103,14 @@ export default function GuessLocationQuiz({ data, onResetGame }: Props) {
                   'line-width': 2,
                 }}
               />
+            </Source>
+            <Source id="hoverable" type="geojson" data={{ features: features.slice(-1), type: "FeatureCollection" }}>
+              <Layer {...hoverPolygonLayerStyle} />
+              <Layer {...hoverLineLayerStyle} />
+              <Layer {...hoverPointLayerStyle} />
+            </Source>
+            <Source id="outline" type="geojson" data={{ features: features.slice(-1), type: "FeatureCollection" }}>
+              <Layer {...outlinePolygonLayerStyle} />
             </Source>
             <Marker
               key="userGuess"
