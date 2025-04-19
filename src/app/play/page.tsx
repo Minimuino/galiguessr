@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import type { FeatureCollection, Feature } from "geojson";
@@ -76,24 +78,40 @@ export default function Play() {
 
   const mode = (queryParams.get("mode") || Mode.PointAndClick) as Mode;
   const datasetName = settingsJson.datasets.find(dataset => dataset.data === queryParams.get("dataset"))?.name;
+  let quiz = null;
   if (mode === "city-map") {
-    return <CityMapQuiz
+    quiz = <CityMapQuiz
       data={data}
       datasetName={datasetName}
       onResetGame={() => window.location.reload()}
     />;
-  }
-  if (mode === "guess-location") {
-    return <GuessLocationQuiz
+  } else if (mode === "guess-location") {
+    quiz = <GuessLocationQuiz
       data={data}
       datasetName={datasetName}
       onResetGame={() => window.location.reload()}
     />;
+  } else {
+    quiz = <StandardQuiz
+      data={data}
+      mode={mode}
+      datasetName={datasetName}
+      onResetGame={() => window.location.reload()}
+    />;
   }
-  return <StandardQuiz
-    data={data}
-    mode={mode}
-    datasetName={datasetName}
-    onResetGame={() => window.location.reload()}
-  />;
+  return (
+    <>
+      {quiz}
+      <Link
+        className="back-button"
+        href="/"
+      >
+        <Image
+          src="/back.svg"
+          alt="Back"
+          width={16}
+          height={16}
+        />
+      </Link>
+    </>);
 }

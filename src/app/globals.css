@@ -16,9 +16,13 @@ body {
 }
 
 .basic-button {
-  @apply rounded-full border border-solid border-black/[.08] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44;
+  @apply rounded-full border border-solid border-black/[.08] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44 shadow-md;
 }
 
 .highlighted-button {
-  @apply rounded-full border-2 border-solid border-[var(--custom-blue)] transition-colors flex items-center justify-center hover:bg-[var(--custom-blue)] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44;
+  @apply rounded-full border-2 border-solid border-[var(--custom-blue)] transition-colors flex items-center justify-center hover:bg-[var(--custom-blue)] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44 shadow-md;
+}
+
+.back-button {
+  @apply absolute top-[2%] sm:top-[4%] left-[3%] rounded-full border border-solid border-black/[.08] transition-colors flex items-center opacity-90 hover:opacity-100 hover:bg-[#f2f2f2] hover:border-transparent px-4 h-12 shadow-md;
 }
