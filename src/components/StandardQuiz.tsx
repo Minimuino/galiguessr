@@ -57,7 +57,7 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
     }
     featureIds.pop();
     setUserGuess(undefined);
-    questionHistory.unshift({ featureName: featureNamesById.get(currentFeatureId), isCorrect: isCorrect });
+    questionHistory.push({ featureName: featureNamesById.get(currentFeatureId), isCorrect: isCorrect });
   }
 
   if (featureIds.length === 0) {
@@ -83,13 +83,15 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
         )}
         {mode === Mode.WriteName && (
           <>
-            <ul className="translate-x-6 max-h-24 sm:max-h-[400px] overflow-auto flex flex-col-reverse">
-              {questionHistory.map((item: QuestionHistoryEntry, index: number) => (
-                <li key={index} className={(item.isCorrect) ? "text-green-700" : "text-red-700"}>
-                  {item.featureName}
-                </li>
-              ))}
-            </ul>
+            <div className="translate-x-4 max-h-24 sm:max-h-[400px] overflow-auto flex flex-col-reverse [direction:rtl]">
+              <ul className="translate-x-4 [direction:ltr]">
+                {questionHistory.map((item: QuestionHistoryEntry, index: number) => (
+                  <li key={index} className={(item.isCorrect) ? "text-green-700" : "text-red-700"}>
+                    {item.featureName}
+                  </li>
+                ))}
+              </ul>
+            </div>
             <TextInput
               onEnterText={handleTextInput}
             />
