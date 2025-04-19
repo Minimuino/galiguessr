@@ -22,10 +22,11 @@ interface QuestionHistoryEntry {
 interface Props {
   data: FeatureCollection;
   mode: Mode;
+  datasetName?: string,
   onResetGame: () => void;
 }
 
-export default function StandardQuiz({ data, mode, onResetGame }: Props) {
+export default function StandardQuiz({ data, mode, datasetName, onResetGame }: Props) {
   const [featureIds] = useState<(string | number | undefined)[]>(shuffle(data.features.map(feature => feature.id)));
   const [userGuess, setUserGuess] = useState<string | number | undefined>(undefined);
   const [rightGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
@@ -101,8 +102,8 @@ export default function StandardQuiz({ data, mode, onResetGame }: Props) {
       </div>
       <GameOverModal
         score={rightGuessFeatureIds.length}
-        datasetName="datasetName"
-        modeName="modeName"
+        datasetName={datasetName}
+        modeName={mode}
         playAgainCallback={onResetGame}
         ref={modalRef}
       />

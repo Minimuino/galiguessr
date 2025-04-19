@@ -3,14 +3,34 @@ import Image from "next/image";
 import { RefObject } from "react";
 
 interface Props {
-  score: number;
-  datasetName: string;
-  modeName: string;
+  score?: number;
+  totalDistanceKm?: number;
+  datasetName?: string;
+  modeName?: string;
   ref: RefObject<HTMLDialogElement | null>;
   playAgainCallback: () => void;
 };
 
-export default function GameOverModal({ score, datasetName, modeName, ref, playAgainCallback }: Props) {
+export default function GameOverModal({ score, totalDistanceKm, datasetName, modeName, ref, playAgainCallback }: Props) {
+  const scoreLabel = (totalDistanceKm != null) ? (
+    <>
+      <p>
+        Erro acumulado total:
+      </p>
+      <label className="text-2xl sm:text-6xl text-[var(--custom-blue)]">
+        {totalDistanceKm.toFixed(2) + " km"}
+      </label>
+    </>)
+    : (
+      <>
+        <p>
+          A túa puntuación:
+        </p>
+        <label className="text-2xl sm:text-6xl text-[var(--custom-blue)]">
+          {score}
+        </label>
+      </>
+    );
   return (
     <dialog
       className="overflow-visible backdrop:bg-black/85 bg-transparent"
@@ -27,13 +47,7 @@ export default function GameOverModal({ score, datasetName, modeName, ref, playA
         <p className="text-center font-[family-name:var(--font-geist-mono)]">
           {datasetName + " - " + modeName}
         </p>
-
-        <p>
-          A túa puntuación:
-        </p>
-        <label className="text-2xl sm:text-6xl text-[var(--custom-blue)]">
-          {score}
-        </label>
+        {scoreLabel}
         <button
           className="basic-button"
         >

@@ -4,6 +4,7 @@ import { Map as MaplibreMap } from "react-map-gl/maplibre";
 import type { MapRef, StyleSpecification } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import bbox from "@turf/bbox";
+import { Mode } from "@/app/enums";
 import ScoreLabel from "@/components/ScoreLabel";
 import GameOverModal from "@/components/GameOverModal";
 import TextInput from "@/components/TextInput";
@@ -22,10 +23,11 @@ interface QuestionHistoryEntry {
 
 interface Props {
   data: FeatureCollection;
+  datasetName?: string;
   onResetGame: () => void;
 }
 
-export default function StandardQuiz({ data, onResetGame }: Props) {
+export default function StandardQuiz({ data, datasetName, onResetGame }: Props) {
   const [featureIds] = useState<(string | number | undefined)[]>(shuffle(data.features.map(feature => feature.id)));
   const [userGuess, setUserGuess] = useState<string | undefined>(undefined);
   const [rightGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
@@ -95,8 +97,8 @@ export default function StandardQuiz({ data, onResetGame }: Props) {
       </div>
       <GameOverModal
         score={rightGuessFeatureIds.length}
-        datasetName="datasetName"
-        modeName="modeName"
+        datasetName={datasetName}
+        modeName={Mode.CityMap}
         playAgainCallback={onResetGame}
         ref={modalRef}
       />

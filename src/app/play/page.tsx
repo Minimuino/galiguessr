@@ -9,11 +9,12 @@ import GuessLocationQuiz from "@/components/GuessLocationQuiz";
 import CityMapQuiz from "@/components/CityMapQuiz";
 import { shuffle } from "@/utils/ArrayUtils";
 
-const selectRandomData = async (): Promise<FeatureCollection> => {
-  const settingsJson = await import("../../../data/settings.json");
-  let features: Feature[] = [];
+import settingsJson from "../../../data/settings.json";
 
+const selectRandomData = async (): Promise<FeatureCollection> => {
+  let features: Feature[] = [];
   const datasets = settingsJson.datasets;
+
   for (let i = 0; i < datasets.length; i++) {
     if (datasets.at(i)?.data === "random") {
       continue;
@@ -74,21 +75,25 @@ export default function Play() {
   // Validate datasets are well formed geojsons with id and name fields
 
   const mode = (queryParams.get("mode") || Mode.PointAndClick) as Mode;
+  const datasetName = settingsJson.datasets.find(dataset => dataset.data === queryParams.get("dataset"))?.name;
   if (mode === "city-map") {
     return <CityMapQuiz
       data={data}
+      datasetName={datasetName}
       onResetGame={() => window.location.reload()}
     />;
   }
   if (mode === "guess-location") {
     return <GuessLocationQuiz
       data={data}
+      datasetName={datasetName}
       onResetGame={() => window.location.reload()}
     />;
   }
   return <StandardQuiz
     data={data}
     mode={mode}
+    datasetName={datasetName}
     onResetGame={() => window.location.reload()}
   />;
 }

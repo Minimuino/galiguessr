@@ -4,6 +4,7 @@ import { LngLat, MapLayerMouseEvent } from "maplibre-gl";
 import Map, { Source, Layer, Marker, MapRef } from "react-map-gl/maplibre";
 import type { Feature, FeatureCollection, LineString } from "geojson";
 import bbox from "@turf/bbox";
+import { Mode } from "@/app/enums";
 import ScoreLabel from "@/components/ScoreLabel";
 import GameOverModal from "@/components/GameOverModal";
 import DistanceLabel from "@/components/DistanceLabel";
@@ -27,10 +28,11 @@ const apply_threshold = (distance: number, geometryType: string): number => {
 
 interface Props {
   data: FeatureCollection;
+  datasetName?: string;
   onResetGame: () => void;
 }
 
-export default function GuessLocationQuiz({ data, onResetGame }: Props) {
+export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Props) {
   const [features] = useState<Feature[]>(shuffle(Array.from(data.features)));
   const [userGuess, setUserGuess] = useState<LngLat | undefined>(undefined);
   const [totalDistanceKm, setTotalDistanceKm] = useState<number>(0);
@@ -139,9 +141,9 @@ export default function GuessLocationQuiz({ data, onResetGame }: Props) {
         </div>
       )}
       <GameOverModal
-        score={totalDistanceKm}
-        datasetName="datasetName"
-        modeName="modeName"
+        totalDistanceKm={totalDistanceKm}
+        datasetName={datasetName}
+        modeName={Mode.GuessLocation}
         playAgainCallback={onResetGame}
         ref={modalRef}
       />
