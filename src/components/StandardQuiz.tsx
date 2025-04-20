@@ -75,33 +75,37 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
         onClick={(mode === Mode.PointAndClick) ? handleMouseClick : undefined}
         highlightedFeatureId={(mode === Mode.WriteName) ? featureIds.at(-1) : undefined}
       />
-      <div className="absolute bottom-[6%] sm:bottom-[15%] left-50 sm:left-[10%]">
-        {mode === Mode.PointAndClick && (
+      {mode === Mode.PointAndClick && (
+        <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
           <QuestionLabel
             textToDisplay={data.features.find(feature => feature.id === featureIds.at(-1))?.properties?.name}
           />
-        )}
-        {mode === Mode.WriteName && (
-          <>
-            <div className="translate-x-4 max-h-24 sm:max-h-[400px] overflow-auto flex flex-col-reverse [direction:rtl]">
-              <ul className="translate-x-4 [direction:ltr]">
-                {questionHistory.map((item: QuestionHistoryEntry, index: number) => (
-                  <li key={index} className={(item.isCorrect) ? "text-green-700" : "text-red-700"}>
-                    {item.featureName}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <TextInput
-              onEnterText={handleTextInput}
-            />
-          </>
-        )}
-        <ScoreLabel
-          score={rightGuessFeatureIds.length}
-          total={data.features.length}
-        />
-      </div>
+          <ScoreLabel
+            score={rightGuessFeatureIds.length}
+            total={data.features.length}
+          />
+        </div>
+      )}
+      {mode === Mode.WriteName && (
+        <div className="absolute bottom-0 sm:bottom-[15%] left-50 sm:left-[10%]">
+          <div className="translate-x-4 max-h-24 sm:max-h-[400px] overflow-auto flex flex-col-reverse [direction:rtl]">
+            <ul className="translate-x-4 [direction:ltr]">
+              {questionHistory.map((item: QuestionHistoryEntry, index: number) => (
+                <li key={index} className={(item.isCorrect) ? "text-green-700" : "text-red-700"}>
+                  {item.featureName}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <TextInput
+            onEnterText={handleTextInput}
+          />
+          <ScoreLabel
+            score={rightGuessFeatureIds.length}
+            total={data.features.length}
+          />
+        </div>
+      )}
       <GameOverModal
         score={rightGuessFeatureIds.length}
         datasetName={datasetName}

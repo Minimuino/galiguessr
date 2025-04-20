@@ -62,8 +62,12 @@
 }
 
 .textinput {
-  width: 24rem;
+  width: 100vw;
   @apply questionlabel;
+
+  @media (min-width: 640px) {
+    width: 24rem;
+  }
 }
 
 .textinput:focus {

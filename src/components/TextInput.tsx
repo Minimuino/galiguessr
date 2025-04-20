@@ -11,6 +11,7 @@ export default function TextInput({ onEnterText }: Props) {
     const inputElement = event.currentTarget.elements.namedItem("textInput") as HTMLInputElement;
     onEnterText(inputElement.value);
     inputElement.value = ""; // Clear the input
+    inputElement.focus();
   };
   return (
     <div>

@@ -103,10 +103,11 @@ export default function Play() {
     <>
       {quiz}
       <Link
-        className="back-button"
+        className="back-button absolute top-[2%] sm:top-[4%] left-[3%]"
         href="/"
       >
         <Image
+          className="-translate-x-[2px]"
           src="/back.svg"
           alt="Back"
           width={16}

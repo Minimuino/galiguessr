@@ -122,7 +122,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
           </>
         )}
       </Map>
-      <div className="absolute bottom-[6%] sm:bottom-[15%] left-50 sm:left-[10%]">
+      <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
         <QuestionLabel
           textToDisplay={features.at(-1)?.properties?.name}
           disabled={userGuess != null}
