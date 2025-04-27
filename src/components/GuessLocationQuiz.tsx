@@ -129,7 +129,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
         />
       </div>
       {userGuess && (
-        <div className="absolute bottom-[6%] sm:bottom-[10%] left-50 flex flex-col items-center gap-2 text-2xl">
+        <div className="absolute bottom-[6%] sm:bottom-[10%] left-50 flex flex-col items-center gap-2 text-2xl pointer-events-none">
           <DistanceLabel distance={currentDistanceKm} />
           <ScoreLabel
             distance={totalDistanceKm + currentDistanceKm}
