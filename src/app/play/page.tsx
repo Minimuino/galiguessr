@@ -121,6 +121,7 @@ export default function Play() {
           width={16}
           height={16}
         />
+        <p className="p-2 hidden sm:inline">Volver</p>
       </Link>
     </>);
 }

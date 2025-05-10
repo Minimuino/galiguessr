@@ -5,7 +5,7 @@ React geography quiz 🌍 Originally designed for [Galicia](https://en.wikipedia
 ## Features
 
 - Three game modes: Point & Click, Write Name and Guess Location.
-- Load any valid geojson and create a custom map quiz.
+- Load any valid geojson file and create a custom map quiz.
 - Responsive design.
 
 ## Usage
