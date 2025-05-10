@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import type { FeatureCollection, Feature } from "geojson";
+import centroid from "@turf/centroid";
 import { Mode } from "@/app/enums";
 import StandardQuiz from "@/components/StandardQuiz";
 import GuessLocationQuiz from "@/components/GuessLocationQuiz";
@@ -92,8 +93,15 @@ export default function Play() {
       onResetGame={() => window.location.reload()}
     />;
   } else {
+    const processedData = {
+      ...data,
+      features: data.features.map(feature => (feature.properties?.renderAsPoint)
+        ? { ...centroid(feature.geometry), id: feature.id, properties: feature.properties }
+        : feature
+      )
+    };
     quiz = <StandardQuiz
-      data={data}
+      data={processedData}
       mode={mode}
       datasetName={datasetName}
       onResetGame={() => window.location.reload()}

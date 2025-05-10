@@ -17,7 +17,7 @@ const QuestionLabel = dynamic(() => import("@/components/QuestionLabel"), { ssr:
 
 const apply_threshold = (distance: number, geometryType: string): number => {
   const thresholds_km = [
-    { type: "Point", threshold: 1.5 },
+    { type: "Point", threshold: 1 },
     { type: "MultiPoint", threshold: 1 },
     { type: "LineString", threshold: 1 },
     { type: "MultiLineString", threshold: 1 }

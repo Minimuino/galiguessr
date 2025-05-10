@@ -4,6 +4,7 @@ import { Map as MaplibreMap } from "react-map-gl/maplibre";
 import type { MapRef, StyleSpecification } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import bbox from "@turf/bbox";
+import transformScale from "@turf/transform-scale";
 import { Mode } from "@/app/enums";
 import ScoreLabel from "@/components/ScoreLabel";
 import GameOverModal from "@/components/GameOverModal";
@@ -27,7 +28,7 @@ interface Props {
   onResetGame: () => void;
 }
 
-export default function StandardQuiz({ data, datasetName, onResetGame }: Props) {
+export default function CityMapQuiz({ data, datasetName, onResetGame }: Props) {
   const [featureIds] = useState<(string | number | undefined)[]>(shuffle(data.features.map(feature => feature.id)));
   const [userGuess, setUserGuess] = useState<string | undefined>(undefined);
   const [rightGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
@@ -39,8 +40,10 @@ export default function StandardQuiz({ data, datasetName, onResetGame }: Props) 
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const currentFeatureId = featureIds.at(-1);
-  const [minLng, minLat, maxLng, maxLat] = bbox(data.features.find(item => item.id === currentFeatureId) || data);
-  mapRef.current?.fitBounds([minLng, minLat, maxLng, maxLat], { padding: 40, duration: 1000 });
+  const currentFeature = data.features.find(item => item.id === currentFeatureId) || data;
+  const [initialMinLng, initialMinLat, initialMaxLng, initialMaxLat] = bbox(transformScale(currentFeature, 0.65));
+  const [minLng, minLat, maxLng, maxLat] = bbox(transformScale(currentFeature, 2));
+  mapRef.current?.fitBounds([initialMinLng, initialMinLat, initialMaxLng, initialMaxLat], { padding: 0, duration: 1000 });
   mapRef.current?.getMap().setMaxBounds([minLng, minLat, maxLng, maxLat]);
 
   const handleTextInput = (input: string) => {
@@ -67,10 +70,7 @@ export default function StandardQuiz({ data, datasetName, onResetGame }: Props) 
     <div className="h-screen flex items-center justify-center">
       <MaplibreMap
         initialViewState={{
-          bounds: [minLng, minLat, maxLng, maxLat],
-          fitBoundsOptions: {
-            padding: { left: 12, top: 12, right: 12, bottom: 12 }
-          }
+          bounds: [initialMinLng, initialMinLat, initialMaxLng, initialMaxLat]
         }}
         maxBounds={[minLng, minLat, maxLng, maxLat]}
         doubleClickZoom={false}
