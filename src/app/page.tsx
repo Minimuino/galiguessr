@@ -33,86 +33,107 @@ export default function Home() {
   const onClickMode = (mode: Mode) => {
     setSelectedMode(mode);
   };
+  const onClickBack = () => {
+    if (selectedMode) {
+      setSelectedMode(undefined);
+    } else if (selectedDataset) {
+      setSelectedDataset(undefined);
+    }
+  }
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-center">
-        <Image
-          src="/logo.svg"
-          alt="Galiguessr logo"
-          width={450}
-          height={76}
-          priority
-        />
-        <p className="text-center font-[family-name:var(--font-geist-mono)]">
-          Quiz de xeografía de Galicia.
-        </p>
+    <div className={`grid grid-rows-[20px_1fr_20px] ${showMenu ? 'items-start' : 'items-center'} justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20`}>
+      <main className="flex flex-col gap-16 row-start-2 items-center sm:items-center">
+        <div className="flex flex-col gap-6">
+          <Image
+            src="/logo.svg"
+            alt="Galiguessr logo"
+            width={450}
+            height={76}
+            priority
+          />
+          <p className="text-center font-[family-name:var(--font-geist-mono)]">
+            Quiz de xeografía de Galicia.
+          </p>
+        </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+        <div className="flex w-full items-start flex-row">
           {!showMenu && (
             <button
-              className="basic-button"
+              className="basic-button mx-auto"
               onClick={onClickStart}
             >
               Comezar
             </button>
           )}
-          {showMenu && (
-            <div className="flex gap-4 items-center flex-col">
+          {showMenu && !selectedDataset && (
+            <div className="flex gap-4 items-center flex-col mx-auto">
               {settings.datasets.map((item: Dataset, index: number) => (
-                <label
+                <button
                   key={index}
                   className="basic-button"
-                  style={{ backgroundColor: selectedDataset?.name === item.name ? "var(--custom-blue)" : "" }}
+                  onClick={() => onClickDataset(item)}
                 >
-                  <input
-                    type="radio"
-                    value={item.name}
-                    checked={selectedDataset?.name === item.name}
-                    onChange={() => onClickDataset(item)}
-                    style={{ display: "none" }}
-                  />
                   {item.name}
-                </label>
+                </button>
               ))}
             </div>
           )}
           {selectedDataset && (
-            <div className="flex gap-4 items-center flex-col">
+            <>
+              <button
+                className="back-button absolute"
+                onClick={onClickBack}
+              >
+                <Image
+                  src="/back.svg"
+                  alt="Back"
+                  width={14}
+                  height={14}
+                />
+              </button>
+            </>
+          )}
+          {selectedDataset && !selectedMode && (
+            <div className="flex gap-4 items-center flex-col mx-auto">
+              <label className="basic-label bg-[var(--custom-blue)]">
+                {selectedDataset.name}
+              </label>
               {settings.modes
                 .filter((mode: Mode) => selectedDataset.availableModes.includes(mode.name))
                 .map((mode: Mode, index: number) => (
-                  <label
+                  <button
                     key={index}
                     className="basic-button"
-                    style={{ backgroundColor: selectedMode?.name === mode.name ? "var(--custom-blue)" : "" }}
+                    onClick={() => onClickMode(mode)}
                   >
-                    <input
-                      type="radio"
-                      value={mode.name}
-                      checked={selectedMode?.name === mode.name}
-                      onChange={() => onClickMode(mode)}
-                      style={{ display: "none" }}
-                    />
                     {mode.label}
-                  </label>
+                  </button>
                 ))
               }
             </div>
           )}
-          {selectedMode && (
-            <Link
-              className="highlighted-button"
-              href={{
-                pathname: "/play",
-                query: {
-                  dataset: selectedDataset?.data,
-                  mode: selectedMode?.name
-                },
-              }}
-            >
-              Xogar!
-            </Link>
+          {selectedMode && selectedDataset && (
+            <div className="flex gap-4 items-center flex-col mx-auto">
+              <label className="basic-label bg-[var(--custom-blue)]">
+                {selectedDataset.name}
+              </label>
+              <label className="basic-label bg-[var(--custom-blue)]">
+                {selectedMode.label}
+              </label>
+              <Link
+                className="highlighted-button"
+                href={{
+                  pathname: "/play",
+                  query: {
+                    dataset: selectedDataset?.data,
+                    mode: selectedMode?.name
+                  },
+                }}
+              >
+                Xogar!
+              </Link>
+            </div>
           )}
         </div>
       </main>

@@ -11,6 +11,7 @@ export default function TextInput({ onEnterText }: Props) {
     const inputElement = event.currentTarget.elements.namedItem("textInput") as HTMLInputElement;
     onEnterText(inputElement.value);
     inputElement.value = ""; // Clear the input
+    inputElement.focus();
   };
   return (
     <div>
@@ -26,7 +27,7 @@ export default function TextInput({ onEnterText }: Props) {
           autoFocus
         />
         <button
-          className="rounded-full transition-colors flex items-center justify-center bg-[var(--galician-blue)] hover:bg-[var(--custom-blue)] h-10 sm:h-12 px-3 sm:px-4 absolute right-1"
+          className="rounded-[13px] transition-colors flex items-center justify-center bg-[var(--galician-blue)] hover:bg-[var(--custom-blue)] h-10 sm:h-12 px-3 sm:px-4 absolute right-1"
           type="submit"
         >
           <Image

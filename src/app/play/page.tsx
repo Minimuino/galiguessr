@@ -1,19 +1,23 @@
 "use client";
 
+import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import type { FeatureCollection, Feature } from "geojson";
+import centroid from "@turf/centroid";
 import { Mode } from "@/app/enums";
 import StandardQuiz from "@/components/StandardQuiz";
 import GuessLocationQuiz from "@/components/GuessLocationQuiz";
 import CityMapQuiz from "@/components/CityMapQuiz";
 import { shuffle } from "@/utils/ArrayUtils";
 
-const selectRandomData = async (): Promise<FeatureCollection> => {
-  const settingsJson = await import("../../../data/settings.json");
-  let features: Feature[] = [];
+import settingsJson from "../../../data/settings.json";
 
+const selectRandomData = async (): Promise<FeatureCollection> => {
+  let features: Feature[] = [];
   const datasets = settingsJson.datasets;
+
   for (let i = 0; i < datasets.length; i++) {
     if (datasets.at(i)?.data === "random") {
       continue;
@@ -74,21 +78,50 @@ export default function Play() {
   // Validate datasets are well formed geojsons with id and name fields
 
   const mode = (queryParams.get("mode") || Mode.PointAndClick) as Mode;
+  const datasetName = settingsJson.datasets.find(dataset => dataset.data === queryParams.get("dataset"))?.name;
+  let quiz = null;
   if (mode === "city-map") {
-    return <CityMapQuiz
+    quiz = <CityMapQuiz
       data={data}
+      datasetName={datasetName}
+      onResetGame={() => window.location.reload()}
+    />;
+  } else if (mode === "guess-location") {
+    quiz = <GuessLocationQuiz
+      data={data}
+      datasetName={datasetName}
+      onResetGame={() => window.location.reload()}
+    />;
+  } else {
+    const processedData = {
+      ...data,
+      features: data.features.map(feature => (feature.properties?.renderAsPoint)
+        ? { ...centroid(feature.geometry), id: feature.id, properties: feature.properties }
+        : feature
+      )
+    };
+    quiz = <StandardQuiz
+      data={processedData}
+      mode={mode}
+      datasetName={datasetName}
       onResetGame={() => window.location.reload()}
     />;
   }
-  if (mode === "guess-location") {
-    return <GuessLocationQuiz
-      data={data}
-      onResetGame={() => window.location.reload()}
-    />;
-  }
-  return <StandardQuiz
-    data={data}
-    mode={mode}
-    onResetGame={() => window.location.reload()}
-  />;
+  return (
+    <>
+      {quiz}
+      <Link
+        className="back-button absolute top-[2%] sm:top-[4%] left-[3%]"
+        href="/"
+      >
+        <Image
+          className="-translate-x-[2px]"
+          src="/back.svg"
+          alt="Back"
+          width={16}
+          height={16}
+        />
+        <p className="p-2 hidden sm:inline">Volver</p>
+      </Link>
+    </>);
 }

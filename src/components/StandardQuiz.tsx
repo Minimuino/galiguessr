@@ -22,10 +22,11 @@ interface QuestionHistoryEntry {
 interface Props {
   data: FeatureCollection;
   mode: Mode;
+  datasetName?: string,
   onResetGame: () => void;
 }
 
-export default function StandardQuiz({ data, mode, onResetGame }: Props) {
+export default function StandardQuiz({ data, mode, datasetName, onResetGame }: Props) {
   const [featureIds] = useState<(string | number | undefined)[]>(shuffle(data.features.map(feature => feature.id)));
   const [userGuess, setUserGuess] = useState<string | number | undefined>(undefined);
   const [rightGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
@@ -74,35 +75,41 @@ export default function StandardQuiz({ data, mode, onResetGame }: Props) {
         onClick={(mode === Mode.PointAndClick) ? handleMouseClick : undefined}
         highlightedFeatureId={(mode === Mode.WriteName) ? featureIds.at(-1) : undefined}
       />
-      <div className="absolute bottom-[6%] sm:bottom-[15%] left-50 sm:left-[10%]">
-        {mode === Mode.PointAndClick && (
+      {mode === Mode.PointAndClick && (
+        <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
           <QuestionLabel
             textToDisplay={data.features.find(feature => feature.id === featureIds.at(-1))?.properties?.name}
           />
-        )}
-        {mode === Mode.WriteName && (
-          <>
-            <ul className="translate-x-6">
+          <ScoreLabel
+            score={rightGuessFeatureIds.length}
+            total={data.features.length}
+          />
+        </div>
+      )}
+      {mode === Mode.WriteName && (
+        <div className="absolute bottom-0 sm:bottom-[15%] left-50 sm:left-[10%]">
+          <div className="translate-x-4 max-h-24 sm:max-h-[400px] overflow-auto flex flex-col-reverse [direction:rtl]">
+            <ul className="translate-x-4 [direction:ltr]">
               {questionHistory.map((item: QuestionHistoryEntry, index: number) => (
                 <li key={index} className={(item.isCorrect) ? "text-green-700" : "text-red-700"}>
                   {item.featureName}
                 </li>
               ))}
             </ul>
-            <TextInput
-              onEnterText={handleTextInput}
-            />
-          </>
-        )}
-        <ScoreLabel
-          score={rightGuessFeatureIds.length}
-          total={data.features.length}
-        />
-      </div>
+          </div>
+          <TextInput
+            onEnterText={handleTextInput}
+          />
+          <ScoreLabel
+            score={rightGuessFeatureIds.length}
+            total={data.features.length}
+          />
+        </div>
+      )}
       <GameOverModal
         score={rightGuessFeatureIds.length}
-        datasetName="datasetName"
-        modeName="modeName"
+        datasetName={datasetName}
+        modeName={mode}
         playAgainCallback={onResetGame}
         ref={modalRef}
       />
