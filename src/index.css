@@ -7,6 +7,11 @@
   --foreground: #171717;
   --galician-blue: #0099cc;
   --custom-blue: #38cdff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -16,7 +21,7 @@ body {
 }
 
 .basic-button {
-  @apply rounded-full border border-solid border-black/[.08] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] hover:border-transparent text-sm sm:text-base select-none h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44 shadow-md;
+  @apply rounded-full border border-solid border-black/[.08] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] hover:border-transparent text-sm sm:text-base select-none h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44 shadow-md cursor-pointer;
 }
 
 .basic-label {
@@ -29,4 +34,12 @@ body {
 
 .back-button {
   @apply rounded-full border border-solid border-black/[.08] transition-colors flex items-center opacity-90 hover:opacity-100 hover:bg-[#f2f2f2] hover:border-transparent px-4 h-12 shadow-md;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }

@@ -5,17 +5,15 @@ import type { MapRef, StyleSpecification } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import bbox from "@turf/bbox";
 import transformScale from "@turf/transform-scale";
-import { Mode } from "@/app/enums";
-import ScoreLabel from "@/components/ScoreLabel";
-import GameOverModal from "@/components/GameOverModal";
-import TextInput from "@/components/TextInput";
-import { shuffle } from "@/utils/ArrayUtils";
+import { distance } from "fastest-levenshtein";
+import { Mode } from "../enums";
+import ScoreLabel from "../components/ScoreLabel";
+import GameOverModal from "../components/GameOverModal";
+import TextInput from "../components/TextInput";
+import { shuffle } from "../utils/ArrayUtils";
 
-import mapstylejson from "../../public/city-map-style.json";
+import mapstylejson from "../assets/city-map-style.json";
 const mapstyle = mapstylejson as StyleSpecification;
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { distance } = require("fastest-levenshtein");
 
 interface QuestionHistoryEntry {
   featureName: string;

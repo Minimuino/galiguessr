@@ -16,7 +16,7 @@ import {
   wrongGuessLineLayerStyle,
   wrongGuessPointLayerStyle
 } from "./mapstyle";
-import { clampLat, clampLng } from "@/utils/MapUtils";
+import { clampLat, clampLng } from "../utils/MapUtils";
 
 const setHoverFeatureState = (map: maplibregl.Map | MapRef | null, highlightedFeatureId: string | number | undefined) => {
   if (highlightedFeatureId != null) {

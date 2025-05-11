@@ -1,10 +1,7 @@
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "react-router";
 import React, { useState } from "react";
 
-import settingsJson from "../../data/settings.json";
+import settingsJson from "./assets/settings.json";
 const settings: { modes: Mode[], datasets: Dataset[] } = settingsJson;
 
 interface Mode {
@@ -43,16 +40,15 @@ export default function Home() {
 
   return (
     <div className={`grid grid-rows-[20px_1fr_20px] ${showMenu ? 'items-start' : 'items-center'} justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20`}>
-      <main className="flex flex-col gap-16 row-start-2 items-center sm:items-center">
+      <main className="flex flex-col gap-16 row-start-2 items-center">
         <div className="flex flex-col gap-6">
-          <Image
+          <img
             src="/logo.svg"
             alt="Galiguessr logo"
             width={450}
             height={76}
-            priority
           />
-          <p className="text-center font-[family-name:var(--font-geist-mono)]">
+          <p className="text-center font-mono">
             Quiz de xeografía de Galicia.
           </p>
         </div>
@@ -85,7 +81,7 @@ export default function Home() {
                 className="back-button absolute"
                 onClick={onClickBack}
               >
-                <Image
+                <img
                   src="/back.svg"
                   alt="Back"
                   width={14}
@@ -123,12 +119,9 @@ export default function Home() {
               </label>
               <Link
                 className="highlighted-button"
-                href={{
+                to={{
                   pathname: "/play",
-                  query: {
-                    dataset: selectedDataset?.data,
-                    mode: selectedMode?.name
-                  },
+                  search: `?dataset=${selectedDataset?.data.replace(/\.[^/.]+$/, "")}&mode=${selectedMode?.name}`,
                 }}
               >
                 Xogar!
@@ -144,7 +137,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
+          <img
             aria-hidden
             src="/github-mark.svg"
             alt="Github icon"
@@ -159,7 +152,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
+          <img
             aria-hidden
             src="/globe.svg"
             alt="Error icon"
@@ -174,7 +167,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
+          <img
             aria-hidden
             src="/file.svg"
             alt="Credits icon"

@@ -1,18 +1,15 @@
-"use client";
-
-import Link from "next/link";
-import Image from "next/image";
+import { Link } from "react-router";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "react-router-dom";
 import type { FeatureCollection, Feature } from "geojson";
 import centroid from "@turf/centroid";
-import { Mode } from "@/app/enums";
-import StandardQuiz from "@/components/StandardQuiz";
-import GuessLocationQuiz from "@/components/GuessLocationQuiz";
-import CityMapQuiz from "@/components/CityMapQuiz";
-import { shuffle } from "@/utils/ArrayUtils";
+import { Mode } from "../enums";
+import StandardQuiz from "../components/StandardQuiz";
+import GuessLocationQuiz from "../components/GuessLocationQuiz";
+import CityMapQuiz from "../components/CityMapQuiz";
+import { shuffle } from "../utils/ArrayUtils";
 
-import settingsJson from "../../../data/settings.json";
+import settingsJson from "../assets/settings.json";
 
 const selectRandomData = async (): Promise<FeatureCollection> => {
   let features: Feature[] = [];
@@ -22,7 +19,8 @@ const selectRandomData = async (): Promise<FeatureCollection> => {
     if (datasets.at(i)?.data === "random") {
       continue;
     }
-    const geojson = await import("../../../data/geojson/" + datasets.at(i)?.data);
+    const fileNameWithoutExtension = datasets.at(i)?.data.replace(/\.[^/.]+$/, "");
+    const geojson = await import(`../assets/geojson/${fileNameWithoutExtension}.json`);
     const featureCollection: FeatureCollection = structuredClone(geojson.default);
     featureCollection.features.forEach(feature => {
       feature.properties = feature.properties ?? {};
@@ -45,7 +43,7 @@ const selectRandomData = async (): Promise<FeatureCollection> => {
 export default function Play() {
   const [data, setData] = useState<FeatureCollection | undefined>();
   const [error, setError] = useState(null);
-  const queryParams = useSearchParams();
+  const [queryParams] = useSearchParams();
 
   useEffect(() => {
     if (queryParams.get("dataset") === "random") {
@@ -57,7 +55,7 @@ export default function Play() {
           setError(error);
         });
     } else {
-      import("../../../data/geojson/" + queryParams.get("dataset"))
+      import(`../assets/geojson/${queryParams.get("dataset")}.json`)
         .then((geojson) => {
           const featureCollection: FeatureCollection = geojson.default;
           setData(featureCollection);
@@ -112,9 +110,9 @@ export default function Play() {
       {quiz}
       <Link
         className="back-button absolute top-[2%] sm:top-[4%] left-[3%]"
-        href="/"
+        to="/"
       >
-        <Image
+        <img
           className="-translate-x-[2px]"
           src="/back.svg"
           alt="Back"

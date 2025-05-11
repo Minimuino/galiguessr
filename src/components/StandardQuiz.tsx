@@ -1,18 +1,14 @@
 import { useState, useRef, useMemo } from "react";
-import dynamic from "next/dynamic";
-import { MapLayerMouseEvent } from "maplibre-gl";
+import type { MapLayerMouseEvent } from "maplibre-gl";
 import type { FeatureCollection } from "geojson";
-import MapView from "@/components/MapView";
-import ScoreLabel from "@/components/ScoreLabel";
-import GameOverModal from "@/components/GameOverModal";
-import TextInput from "@/components/TextInput";
-import { shuffle } from "@/utils/ArrayUtils";
-import { Mode } from "@/app/enums";
-
-const QuestionLabel = dynamic(() => import("@/components/QuestionLabel"), { ssr: false });
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { distance } = require("fastest-levenshtein");
+import { distance } from "fastest-levenshtein";
+import MapView from "../components/MapView";
+import ScoreLabel from "../components/ScoreLabel";
+import QuestionLabel from "../components/QuestionLabel";
+import GameOverModal from "../components/GameOverModal";
+import TextInput from "../components/TextInput";
+import { shuffle } from "../utils/ArrayUtils";
+import { Mode } from "../enums";
 
 interface QuestionHistoryEntry {
   featureName: string;

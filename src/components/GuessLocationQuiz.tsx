@@ -1,19 +1,17 @@
 import { useState, useRef, useMemo } from "react";
-import dynamic from "next/dynamic";
-import { LngLat, MapLayerMouseEvent } from "maplibre-gl";
-import Map, { Source, Layer, Marker, MapRef } from "react-map-gl/maplibre";
+import { LngLat, type MapLayerMouseEvent } from "maplibre-gl";
+import Map, { Source, Layer, Marker, type MapRef } from "react-map-gl/maplibre";
 import type { Feature, FeatureCollection, LineString } from "geojson";
 import bbox from "@turf/bbox";
-import { Mode } from "@/app/enums";
-import ScoreLabel from "@/components/ScoreLabel";
-import GameOverModal from "@/components/GameOverModal";
-import DistanceLabel from "@/components/DistanceLabel";
-import { shuffle } from "@/utils/ArrayUtils";
-import { clampLat, clampLng, getDistanceToCurrentFeature } from "@/utils/MapUtils";
+import { Mode } from "../enums";
+import ScoreLabel from "../components/ScoreLabel";
+import GameOverModal from "../components/GameOverModal";
+import DistanceLabel from "../components/DistanceLabel";
+import QuestionLabel from "../components/QuestionLabel";
+import { shuffle } from "../utils/ArrayUtils";
+import { clampLat, clampLng, getDistanceToCurrentFeature } from "../utils/MapUtils";
 import { hoverPolygonLayerStyle, hoverLineLayerStyle, hoverPointLayerStyle, outlinePolygonLayerStyle } from "./mapstyle";
 import styles from "./styles.module.css";
-
-const QuestionLabel = dynamic(() => import("@/components/QuestionLabel"), { ssr: false });
 
 const apply_threshold = (distance: number, geometryType: string): number => {
   const thresholds_km = [
@@ -124,12 +122,12 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
       </Map>
       <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
         <QuestionLabel
-          textToDisplay={features.at(-1)?.properties?.name}
+          textToDisplay={features.at(-1)?.properties?.name as string}
           disabled={userGuess != null}
         />
       </div>
       {userGuess && (
-        <div className="absolute bottom-[6%] sm:bottom-[10%] left-50 flex flex-col items-center gap-2 text-2xl pointer-events-none">
+        <div className="absolute bottom-[6%] sm:bottom-[10%] flex flex-col items-center gap-2 text-2xl pointer-events-none">
           <DistanceLabel distance={currentDistanceKm} />
           <ScoreLabel
             distance={totalDistanceKm + currentDistanceKm}
