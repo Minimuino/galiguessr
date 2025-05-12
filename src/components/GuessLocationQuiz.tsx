@@ -55,7 +55,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
   let distanceLine: LineString = { type: "LineString", coordinates: [] };
   let currentDistanceKm = 0;
   if (userGuess != null) {
-    const currentFeatureGeometry = features.at(-1)?.geometry;
+    const currentFeatureGeometry = features[features.length - 1]?.geometry;
     if (currentFeatureGeometry === undefined) {
       throw new Error('Current feature geometry is undefined');
     }
@@ -122,7 +122,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
       </Map>
       <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
         <QuestionLabel
-          textToDisplay={features.at(-1)?.properties?.name as string}
+          textToDisplay={features[features.length - 1]?.properties?.name as string}
           disabled={userGuess != null}
         />
       </div>

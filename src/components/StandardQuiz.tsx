@@ -23,13 +23,21 @@ interface Props {
 }
 
 export default function StandardQuiz({ data, mode, datasetName, onResetGame }: Props) {
-  const [featureIds] = useState<(string | number | undefined)[]>(shuffle(data.features.map(feature => feature.id)));
+  const [featureIds] = useState<(string | number)[]>(shuffle(data.features.map(feature => {
+    if (feature.id == null) {
+      throw new Error(`Missing id in feature: ${JSON.stringify(feature).substring(0, 100)} ...`);
+    }
+    return feature.id;
+  })));
   const [userGuess, setUserGuess] = useState<string | number | undefined>(undefined);
-  const [rightGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
-  const [wrongGuessFeatureIds] = useState<(string | number | undefined)[]>([]);
+  const [rightGuessFeatureIds] = useState<(string | number)[]>([]);
+  const [wrongGuessFeatureIds] = useState<(string | number)[]>([]);
   const [questionHistory] = useState<QuestionHistoryEntry[]>([]);
 
-  const featureNamesById = useMemo(() => new Map(data.features.map(feature => [feature.id, feature.properties?.name])), [data]);
+  const featureNamesById: Map<string | number, string> = useMemo(
+    () => new Map(data.features.map(feature => [feature.id!, feature.properties?.name as string])),
+    [data]
+  );
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleTextInput = (input: string) => {
@@ -43,9 +51,10 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
   };
 
   if (userGuess != null) {
-    const currentFeatureId = featureIds.at(-1);
+    const currentFeatureId = featureIds[featureIds.length - 1];
+    const currentFeatureName = featureNamesById.get(currentFeatureId) || "Missing feature name";
     const isCorrect = userGuess === currentFeatureId
-      || distance(String(userGuess).replace(/\s+/g, "").toLowerCase(), featureNamesById.get(currentFeatureId).replace(/\s+/g, "").toLowerCase()) < 2;
+      || distance(String(userGuess).replace(/\s+/g, "").toLowerCase(), currentFeatureName.replace(/\s+/g, "").toLowerCase()) < 2;
     if (isCorrect) {
       rightGuessFeatureIds.push(currentFeatureId);
     } else {
@@ -53,7 +62,7 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
     }
     featureIds.pop();
     setUserGuess(undefined);
-    questionHistory.push({ featureName: featureNamesById.get(currentFeatureId), isCorrect: isCorrect });
+    questionHistory.push({ featureName: currentFeatureName, isCorrect: isCorrect });
   }
 
   if (featureIds.length === 0) {
@@ -64,17 +73,17 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
     <div className="h-screen flex items-center justify-center">
       <MapView
         data={data}
-        pendingGuessFeatures={{ features: data.features.filter((feature) => featureIds.includes(feature.id)), type: "FeatureCollection" }}
-        rightGuessFeatures={{ features: data.features.filter((feature) => rightGuessFeatureIds.includes(feature.id)), type: "FeatureCollection" }}
-        wrongGuessFeatures={{ features: data.features.filter((feature) => wrongGuessFeatureIds.includes(feature.id)), type: "FeatureCollection" }}
+        pendingGuessFeatures={{ features: data.features.filter((feature) => featureIds.includes(feature.id!)), type: "FeatureCollection" }}
+        rightGuessFeatures={{ features: data.features.filter((feature) => rightGuessFeatureIds.includes(feature.id!)), type: "FeatureCollection" }}
+        wrongGuessFeatures={{ features: data.features.filter((feature) => wrongGuessFeatureIds.includes(feature.id!)), type: "FeatureCollection" }}
         interactive={(mode === Mode.PointAndClick)}
         onClick={(mode === Mode.PointAndClick) ? handleMouseClick : undefined}
-        highlightedFeatureId={(mode === Mode.WriteName) ? featureIds.at(-1) : undefined}
+        highlightedFeatureId={(mode === Mode.WriteName) ? featureIds[featureIds.length - 1] : undefined}
       />
       {mode === Mode.PointAndClick && (
         <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
           <QuestionLabel
-            textToDisplay={data.features.find(feature => feature.id === featureIds.at(-1))?.properties?.name}
+            textToDisplay={data.features.find(feature => feature.id === featureIds[featureIds.length - 1])?.properties?.name as string}
           />
           <ScoreLabel
             score={rightGuessFeatureIds.length}

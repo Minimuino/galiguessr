@@ -21,8 +21,8 @@ const selectRandomData = async (): Promise<FeatureCollection> => {
       continue;
     }
     const fileNameWithoutExtension = removeFileExtension(dataset.data);
-    const geojson = await import(`../assets/geojson/${fileNameWithoutExtension}.json`);
-    const featureCollection = structuredClone(geojson.default) as FeatureCollection;
+    const geojson = await import(`../assets/geojson/${fileNameWithoutExtension}.json`) as { default: FeatureCollection };
+    const featureCollection = structuredClone(geojson.default);
     featureCollection.features.forEach(feature => {
       feature.properties = feature.properties ?? {};
       feature.properties.name = dataset.name + ": " + (feature.properties?.name ?? '');
@@ -43,7 +43,7 @@ const selectRandomData = async (): Promise<FeatureCollection> => {
 
 export default function Play() {
   const [data, setData] = useState<FeatureCollection | undefined>();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error | null>(null);
   const [queryParams] = useSearchParams();
 
   useEffect(() => {
@@ -52,16 +52,16 @@ export default function Play() {
         .then((featureCollection) => {
           setData(featureCollection);
         })
-        .catch(error => {
+        .catch((error: Error) => {
           setError(error);
         });
     } else {
       import(`../assets/geojson/${queryParams.get("dataset")}.json`)
-        .then((geojson) => {
-          const featureCollection = geojson.default as FeatureCollection;
+        .then((geojson: { default: FeatureCollection }) => {
+          const featureCollection = geojson.default;
           setData(featureCollection);
         })
-        .catch(error => {
+        .catch((error: Error) => {
           setError(error);
         });
     }
