@@ -1,5 +1,4 @@
 import styles from "./styles.module.css";
-import Image from "next/image";
 
 interface Props {
   onEnterText: (input: string) => void;
@@ -30,7 +29,7 @@ export default function TextInput({ onEnterText }: Props) {
           className="rounded-[13px] transition-colors flex items-center justify-center bg-[var(--galician-blue)] hover:bg-[var(--custom-blue)] h-10 sm:h-12 px-3 sm:px-4 absolute right-1"
           type="submit"
         >
-          <Image
+          <img
             src="/send.svg"
             alt="Submit icon"
             width={28}

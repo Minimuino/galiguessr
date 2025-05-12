@@ -1,32 +1,31 @@
-"use client";
-
-import Link from "next/link";
-import Image from "next/image";
+import { Link } from "react-router";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "react-router-dom";
 import type { FeatureCollection, Feature } from "geojson";
 import centroid from "@turf/centroid";
-import { Mode } from "@/app/enums";
-import StandardQuiz from "@/components/StandardQuiz";
-import GuessLocationQuiz from "@/components/GuessLocationQuiz";
-import CityMapQuiz from "@/components/CityMapQuiz";
-import { shuffle } from "@/utils/ArrayUtils";
+import { Mode } from "../enums";
+import StandardQuiz from "../components/StandardQuiz";
+import GuessLocationQuiz from "../components/GuessLocationQuiz";
+import CityMapQuiz from "../components/CityMapQuiz";
+import { shuffle } from "../utils/ArrayUtils";
+import { removeFileExtension } from "../utils/StringUtils";
 
-import settingsJson from "../../../data/settings.json";
+import settingsJson from "../assets/settings.json";
 
 const selectRandomData = async (): Promise<FeatureCollection> => {
   let features: Feature[] = [];
   const datasets = settingsJson.datasets;
 
-  for (let i = 0; i < datasets.length; i++) {
-    if (datasets.at(i)?.data === "random") {
+  for (const dataset of datasets) {
+    if (dataset.data === "random") {
       continue;
     }
-    const geojson = await import("../../../data/geojson/" + datasets.at(i)?.data);
-    const featureCollection: FeatureCollection = structuredClone(geojson.default);
+    const fileNameWithoutExtension = removeFileExtension(dataset.data);
+    const geojson = await import(`../assets/geojson/${fileNameWithoutExtension}.json`) as { default: FeatureCollection };
+    const featureCollection = structuredClone(geojson.default);
     featureCollection.features.forEach(feature => {
       feature.properties = feature.properties ?? {};
-      feature.properties.name = datasets.at(i)?.name + ": " + (feature.properties?.name ?? '');
+      feature.properties.name = dataset.name + ": " + (feature.properties?.name ?? '');
     });
     features = features.concat(featureCollection.features);
   }
@@ -44,8 +43,8 @@ const selectRandomData = async (): Promise<FeatureCollection> => {
 
 export default function Play() {
   const [data, setData] = useState<FeatureCollection | undefined>();
-  const [error, setError] = useState(null);
-  const queryParams = useSearchParams();
+  const [error, setError] = useState<Error | null>(null);
+  const [queryParams] = useSearchParams();
 
   useEffect(() => {
     if (queryParams.get("dataset") === "random") {
@@ -53,16 +52,16 @@ export default function Play() {
         .then((featureCollection) => {
           setData(featureCollection);
         })
-        .catch(error => {
+        .catch((error: Error) => {
           setError(error);
         });
     } else {
-      import("../../../data/geojson/" + queryParams.get("dataset"))
-        .then((geojson) => {
-          const featureCollection: FeatureCollection = geojson.default;
+      import(`../assets/geojson/${queryParams.get("dataset")}.json`)
+        .then((geojson: { default: FeatureCollection }) => {
+          const featureCollection = geojson.default;
           setData(featureCollection);
         })
-        .catch(error => {
+        .catch((error: Error) => {
           setError(error);
         });
     }
@@ -78,7 +77,7 @@ export default function Play() {
   // Validate datasets are well formed geojsons with id and name fields
 
   const mode = (queryParams.get("mode") || Mode.PointAndClick) as Mode;
-  const datasetName = settingsJson.datasets.find(dataset => dataset.data === queryParams.get("dataset"))?.name;
+  const datasetName = settingsJson.datasets.find(dataset => removeFileExtension(dataset.data) === queryParams.get("dataset"))?.name;
   let quiz = null;
   if (mode === "city-map") {
     quiz = <CityMapQuiz
@@ -112,9 +111,9 @@ export default function Play() {
       {quiz}
       <Link
         className="back-button absolute top-[2%] sm:top-[4%] left-[3%]"
-        href="/"
+        to="/"
       >
-        <Image
+        <img
           className="-translate-x-[2px]"
           src="/back.svg"
           alt="Back"

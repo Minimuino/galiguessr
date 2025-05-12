@@ -1,6 +1,5 @@
-import Link from "next/link";
-import Image from "next/image";
-import { RefObject } from "react";
+import { Link } from "react-router";
+import type { RefObject } from "react";
 
 interface Props {
   score?: number;
@@ -37,12 +36,11 @@ export default function GameOverModal({ score, totalDistanceKm, datasetName, mod
       ref={ref}
     >
       <div className="rounded-xl overflow-hidden bg-white p-8 flex flex-col gap-8 items-center">
-        <Image
+        <img
           src="/logo.svg"
           alt="Galiguessr logo"
           width={280}
           height={56}
-          priority
         />
         <p className="text-center font-[family-name:var(--font-geist-mono)]">
           {datasetName + " - " + modeName}
@@ -61,7 +59,7 @@ export default function GameOverModal({ score, totalDistanceKm, datasetName, mod
         </button>
         <Link
           className="basic-button"
-          href="/"
+          to="/"
         >
           Volver ao menú
         </Link>

@@ -17,12 +17,6 @@ React geography quiz 🌍 Originally designed for [Galicia](https://en.wikipedia
 5. Set your language to 'en', or add new i18n files if you want so.
 6. Deploy and enjoy!
 
-## Next.js
-
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font).
-
 ## License
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
