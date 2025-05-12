@@ -8,6 +8,7 @@ import StandardQuiz from "../components/StandardQuiz";
 import GuessLocationQuiz from "../components/GuessLocationQuiz";
 import CityMapQuiz from "../components/CityMapQuiz";
 import { shuffle } from "../utils/ArrayUtils";
+import { removeFileExtension } from "../utils/StringUtils";
 
 import settingsJson from "../assets/settings.json";
 
@@ -15,16 +16,16 @@ const selectRandomData = async (): Promise<FeatureCollection> => {
   let features: Feature[] = [];
   const datasets = settingsJson.datasets;
 
-  for (let i = 0; i < datasets.length; i++) {
-    if (datasets.at(i)?.data === "random") {
+  for (const dataset of datasets) {
+    if (dataset.data === "random") {
       continue;
     }
-    const fileNameWithoutExtension = datasets.at(i)?.data.replace(/\.[^/.]+$/, "");
+    const fileNameWithoutExtension = removeFileExtension(dataset.data);
     const geojson = await import(`../assets/geojson/${fileNameWithoutExtension}.json`);
-    const featureCollection: FeatureCollection = structuredClone(geojson.default);
+    const featureCollection = structuredClone(geojson.default) as FeatureCollection;
     featureCollection.features.forEach(feature => {
       feature.properties = feature.properties ?? {};
-      feature.properties.name = datasets.at(i)?.name + ": " + (feature.properties?.name ?? '');
+      feature.properties.name = dataset.name + ": " + (feature.properties?.name ?? '');
     });
     features = features.concat(featureCollection.features);
   }
@@ -57,7 +58,7 @@ export default function Play() {
     } else {
       import(`../assets/geojson/${queryParams.get("dataset")}.json`)
         .then((geojson) => {
-          const featureCollection: FeatureCollection = geojson.default;
+          const featureCollection = geojson.default as FeatureCollection;
           setData(featureCollection);
         })
         .catch(error => {
@@ -76,7 +77,7 @@ export default function Play() {
   // Validate datasets are well formed geojsons with id and name fields
 
   const mode = (queryParams.get("mode") || Mode.PointAndClick) as Mode;
-  const datasetName = settingsJson.datasets.find(dataset => dataset.data === queryParams.get("dataset"))?.name;
+  const datasetName = settingsJson.datasets.find(dataset => removeFileExtension(dataset.data) === queryParams.get("dataset"))?.name;
   let quiz = null;
   if (mode === "city-map") {
     quiz = <CityMapQuiz

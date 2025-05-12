@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import React, { useState } from "react";
+import { removeFileExtension } from "./utils/StringUtils";
 
 import settingsJson from "./assets/settings.json";
 const settings: { modes: Mode[], datasets: Dataset[] } = settingsJson;
@@ -121,7 +122,7 @@ export default function Home() {
                 className="highlighted-button"
                 to={{
                   pathname: "/play",
-                  search: `?dataset=${selectedDataset?.data.replace(/\.[^/.]+$/, "")}&mode=${selectedMode?.name}`,
+                  search: `?dataset=${removeFileExtension(selectedDataset?.data)}&mode=${selectedMode?.name}`,
                 }}
               >
                 Xogar!
