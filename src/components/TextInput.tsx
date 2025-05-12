@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import styles from "./styles.module.css";
 
 interface Props {
@@ -5,6 +6,7 @@ interface Props {
 };
 
 export default function TextInput({ onEnterText }: Props) {
+  const { t } = useTranslation();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const inputElement = event.currentTarget.elements.namedItem("textInput") as HTMLInputElement;
@@ -22,7 +24,7 @@ export default function TextInput({ onEnterText }: Props) {
         <input
           className={styles.textinput}
           name="textInput"
-          placeholder="Escribe o nome do lugar"
+          placeholder={t("textinput.placeholder")}
           autoFocus
         />
         <button

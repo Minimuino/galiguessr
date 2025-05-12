@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import type { FeatureCollection, Feature } from "geojson";
 import centroid from "@turf/centroid";
 import { Mode } from "../enums";
@@ -45,6 +46,7 @@ export default function Play() {
   const [data, setData] = useState<FeatureCollection | undefined>();
   const [error, setError] = useState<Error | null>(null);
   const [queryParams] = useSearchParams();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (queryParams.get("dataset") === "random") {
@@ -120,7 +122,7 @@ export default function Play() {
           width={16}
           height={16}
         />
-        <p className="p-2 hidden sm:inline">Volver</p>
+        <p className="p-2 hidden sm:inline">{t("back")}</p>
       </Link>
     </>);
 }

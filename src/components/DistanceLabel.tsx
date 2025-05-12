@@ -1,15 +1,17 @@
+import { useTranslation } from 'react-i18next';
+
 interface Props {
   distance: number;
 };
 
 export default function DistanceLabel({ distance }: Props) {
-  const text = (distance === 0) ? `Localización correcta!` : `A ${distance.toFixed(2)} km da localización correcta`;
+  const { t } = useTranslation();
   return (
     <div className="text-inherit">
       <label
         className="flex items-center justify-center text-inherit text-center h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44 font-[family-name:var(--font-geist-mono)]"
       >
-        {text}
+        {(distance === 0) ? t("distancelabel.hit") : t("distancelabel.miss", { distance: distance.toFixed(2) })}
       </label>
     </div>
   );

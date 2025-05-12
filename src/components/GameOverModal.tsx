@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import type { RefObject } from "react";
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   score?: number;
@@ -11,10 +12,11 @@ interface Props {
 };
 
 export default function GameOverModal({ score, totalDistanceKm, datasetName, modeName, ref, playAgainCallback }: Props) {
+  const { t } = useTranslation();
   const scoreLabel = (totalDistanceKm != null) ? (
     <>
       <p>
-        Erro acumulado total:
+        {t("gameovermodal.totalDistance")}
       </p>
       <label className="text-2xl sm:text-6xl text-[var(--custom-blue)]">
         {totalDistanceKm.toFixed(2) + " km"}
@@ -23,7 +25,7 @@ export default function GameOverModal({ score, totalDistanceKm, datasetName, mod
     : (
       <>
         <p>
-          A túa puntuación:
+          {t("gameovermodal.finalScore")}
         </p>
         <label className="text-2xl sm:text-6xl text-[var(--custom-blue)]">
           {score}
@@ -49,19 +51,19 @@ export default function GameOverModal({ score, totalDistanceKm, datasetName, mod
         <button
           className="basic-button"
         >
-          Compartir en redes
+          {t("gameovermodal.share")}
         </button>
         <button
           className="basic-button"
           onClick={playAgainCallback}
         >
-          Xogar de novo
+          {t("gameovermodal.tryAgain")}
         </button>
         <Link
           className="basic-button"
           to="/"
         >
-          Volver ao menú
+          {t("gameovermodal.backToMenu")}
         </Link>
       </div>
     </dialog>
