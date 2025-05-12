@@ -1,0 +1,27 @@
+{
+  "title": "General geography quiz.",
+  "start": "Start",
+  "play": "Play!",
+  "back": "Back",
+  "next": "Next",
+  "github": "GitHub",
+  "contact": "Report an error",
+  "credits": "Credits",
+  "textinput": {
+    "placeholder": "Write the name of the place"
+  },
+  "distancelabel": {
+    "hit": "Correct guess!",
+    "miss": "{{distance}} km from the actual location"
+  },
+  "scorelabel": {
+    "totalDistance": "{{distance}} km of accumulated error"
+  },
+  "gameovermodal": {
+    "totalDistance": "Total accumulated error:",
+    "finalScore": "Your final score:",
+    "share": "Share",
+    "tryAgain": "Play again",
+    "backToMenu": "Back to menu"
+  }
+}

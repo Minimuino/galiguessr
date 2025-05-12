@@ -2,6 +2,7 @@ import { useState, useRef, useMemo } from "react";
 import { LngLat, type MapLayerMouseEvent } from "maplibre-gl";
 import Map, { Source, Layer, Marker, type MapRef } from "react-map-gl/maplibre";
 import type { Feature, FeatureCollection, LineString } from "geojson";
+import { useTranslation } from 'react-i18next';
 import bbox from "@turf/bbox";
 import { Mode } from "../enums";
 import ScoreLabel from "../components/ScoreLabel";
@@ -39,6 +40,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
   const [minLng, minLat, maxLng, maxLat] = useMemo(() => bbox(data), []); // Calculate bbox only on first render
   const modalRef = useRef<HTMLDialogElement | null>(null);
   const mapRef = useRef<MapRef | null>(null);
+  const { t } = useTranslation();
 
   const handleMouseClick = (event: MapLayerMouseEvent) => {
     if (!userGuess) {
@@ -134,7 +136,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
           />
           <button className={styles.quizbutton}
             onClick={handleNextButtonClick}>
-            Seguinte
+            {t("next")}
           </button>
         </div>
       )}

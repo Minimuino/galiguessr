@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { removeFileExtension } from "./utils/StringUtils";
 
 import settingsJson from "./assets/settings.json";
@@ -20,6 +21,7 @@ export default function Home() {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedDataset, setSelectedDataset] = useState<Dataset>();
   const [selectedMode, setSelectedMode] = useState<Mode>();
+  const { t } = useTranslation();
 
   const onClickStart = () => {
     setShowMenu(true);
@@ -50,7 +52,7 @@ export default function Home() {
             height={76}
           />
           <p className="text-center font-mono">
-            Quiz de xeografía de Galicia.
+            {t("title")}
           </p>
         </div>
 
@@ -60,7 +62,7 @@ export default function Home() {
               className="basic-button mx-auto"
               onClick={onClickStart}
             >
-              Comezar
+              {t("start")}
             </button>
           )}
           {showMenu && !selectedDataset && (
@@ -125,7 +127,7 @@ export default function Home() {
                   search: `?dataset=${removeFileExtension(selectedDataset?.data)}&mode=${selectedMode?.name}`,
                 }}
               >
-                Xogar!
+                {t("play")}
               </Link>
             </div>
           )}
@@ -145,7 +147,7 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Proxecto en GitHub
+          {t("github")}
         </a>
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
@@ -160,7 +162,7 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Informar dun erro
+          {t("contact")}
         </a>
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
@@ -175,7 +177,7 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Créditos
+          {t("credits")}
         </a>
       </footer>
     </div>

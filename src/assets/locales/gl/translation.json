@@ -1,0 +1,27 @@
+{
+  "title": "Quiz de xeografía de Galicia.",
+  "start": "Comezar",
+  "play": "Xogar!",
+  "back": "Volver",
+  "next": "Seguinte",
+  "github": "Proxecto en GitHub",
+  "contact": "Informar dun erro",
+  "credits": "Créditos",
+  "textinput": {
+    "placeholder": "Escribe o nome do lugar"
+  },
+  "distancelabel": {
+    "hit": "Localización correcta!",
+    "miss": "A {{distance}} km da localización correcta"
+  },
+  "scorelabel": {
+    "totalDistance": "{{distance}} km de erro acumulado"
+  },
+  "gameovermodal": {
+    "totalDistance": "Erro acumulado total:",
+    "finalScore": "A túa puntuación:",
+    "share": "Compartir en redes",
+    "tryAgain": "Xogar de novo",
+    "backToMenu": "Volver ao menú"
+  }
+}
