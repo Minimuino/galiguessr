@@ -1,6 +1,6 @@
 import { useState, useRef, useMemo } from "react";
 import { LngLat, type MapLayerMouseEvent } from "maplibre-gl";
-import Map, { Source, Layer, Marker, type MapRef } from "react-map-gl/maplibre";
+import Map, { Source, Layer, Marker, type MapRef, type StyleSpecification } from "react-map-gl/maplibre";
 import type { Feature, FeatureCollection, LineString } from "geojson";
 import { useTranslation } from 'react-i18next';
 import bbox from "@turf/bbox";
@@ -13,6 +13,9 @@ import { shuffle } from "../utils/ArrayUtils";
 import { clampLat, clampLng, getDistanceToCurrentFeature } from "../utils/MapUtils";
 import { hoverPolygonLayerStyle, hoverLineLayerStyle, hoverPointLayerStyle, outlinePolygonLayerStyle } from "./mapstyle";
 import styles from "./styles.module.css";
+
+import mapstylejson from "../assets/main-map-style.json";
+const mapstyle = mapstylejson as StyleSpecification;
 
 const apply_threshold = (distance: number, geometryType: string): number => {
   const thresholds_km = [
@@ -91,7 +94,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
         doubleClickZoom={false}
         dragRotate={false}
         cursor="default"
-        mapStyle="https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json"
+        mapStyle={mapstyle}
         onClick={handleMouseClick}
         ref={mapRef}
       >

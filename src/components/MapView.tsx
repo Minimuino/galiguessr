@@ -1,6 +1,6 @@
 import { useRef, useMemo } from "react";
 import Map, { Source, Layer } from "react-map-gl/maplibre";
-import type { MapLayerMouseEvent, MapRef } from "react-map-gl/maplibre";
+import type { MapLayerMouseEvent, MapRef, StyleSpecification } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { FeatureCollection } from "geojson";
 import bbox from "@turf/bbox";
@@ -17,6 +17,9 @@ import {
   wrongGuessPointLayerStyle
 } from "./mapstyle";
 import { clampLat, clampLng } from "../utils/MapUtils";
+
+import mapstylejson from "../assets/main-map-style.json";
+const mapstyle = mapstylejson as StyleSpecification;
 
 const setHoverFeatureState = (map: maplibregl.Map | MapRef | null, highlightedFeatureId: string | number | undefined) => {
   if (highlightedFeatureId != null) {
@@ -87,7 +90,7 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
       doubleClickZoom={false}
       dragRotate={false}
       cursor="default"
-      mapStyle="https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json"
+      mapStyle={mapstyle}
       interactiveLayerIds={(interactive) ? ["hoverablePolygonLayer", "hoverableLineLayer", "hoverablePointLayer"] : undefined}
       onMouseMove={onHover}
       onMouseLeave={onLeave}
