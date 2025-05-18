@@ -1,15 +1,11 @@
 import { Link } from "react-router";
-import React, { useState } from "react";
-import { useTranslation } from 'react-i18next';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Mode } from "./enums";
 import { removeFileExtension } from "./utils/StringUtils";
 
 import settingsJson from "./assets/settings.json";
-const settings: { modes: Mode[], datasets: Dataset[] } = settingsJson;
-
-interface Mode {
-  name: string;
-  label: string;
-}
+const settings: { datasets: Dataset[] } = settingsJson;
 
 interface Dataset {
   name: string;
@@ -98,15 +94,15 @@ export default function Home() {
               <label className="basic-label bg-[var(--custom-blue)]">
                 {selectedDataset.name}
               </label>
-              {settings.modes
-                .filter((mode: Mode) => selectedDataset.availableModes.includes(mode.name))
-                .map((mode: Mode, index: number) => (
+              {Object.values(Mode)
+                .filter((mode) => selectedDataset.availableModes.includes(mode))
+                .map((mode, index: number) => (
                   <button
                     key={index}
                     className="basic-button"
                     onClick={() => onClickMode(mode)}
                   >
-                    {mode.label}
+                    {t("modes." + mode)}
                   </button>
                 ))
               }
@@ -118,13 +114,13 @@ export default function Home() {
                 {selectedDataset.name}
               </label>
               <label className="basic-label bg-[var(--custom-blue)]">
-                {selectedMode.label}
+                {t("modes." + selectedMode)}
               </label>
               <Link
                 className="highlighted-button"
                 to={{
                   pathname: "/play",
-                  search: `?dataset=${removeFileExtension(selectedDataset?.data)}&mode=${selectedMode?.name}`,
+                  search: `?dataset=${removeFileExtension(selectedDataset?.data)}&mode=${selectedMode}`,
                 }}
               >
                 {t("play")}

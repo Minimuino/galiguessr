@@ -7,6 +7,12 @@
   "github": "Proxecto en GitHub",
   "contact": "Informar dun erro",
   "credits": "Créditos",
+  "modes": {
+    "point-and-click": "Sinalar no mapa con marcas",
+    "guess-location": "Sinalar no mapa sen marcas",
+    "write-name": "Nomear",
+    "city-map": "Adiviñar vendo o plano"
+  },
   "textinput": {
     "placeholder": "Escribe o nome do lugar"
   },
@@ -21,6 +27,7 @@
     "totalDistance": "Erro acumulado total:",
     "finalScore": "A túa puntuación:",
     "share": "Compartir en redes",
+    "copiedToClipboard": "Enlace copiado ao portapapeis",
     "tryAgain": "Xogar de novo",
     "backToMenu": "Volver ao menú"
   }

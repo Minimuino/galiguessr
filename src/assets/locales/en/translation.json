@@ -7,6 +7,12 @@
   "github": "GitHub",
   "contact": "Report an error",
   "credits": "Credits",
+  "modes": {
+    "point-and-click": "Point & Click",
+    "guess-location": "Guess location",
+    "write-name": "Write the name",
+    "city-map": "Guess the city"
+  },
   "textinput": {
     "placeholder": "Write the name of the place"
   },
@@ -21,6 +27,7 @@
     "totalDistance": "Total accumulated error:",
     "finalScore": "Your final score:",
     "share": "Share",
+    "copiedToClipboard": "Link copied to clipboard",
     "tryAgain": "Play again",
     "backToMenu": "Back to menu"
   }

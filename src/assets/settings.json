@@ -1,11 +1,4 @@
 {
-  "modes": [
-    {"name": "point-and-click", "label": "Sinalar no mapa con marcas"},
-    {"name": "guess-location", "label": "Sinalar no mapa sen marcas"},
-    {"name": "write-name", "label": "Nomear"},
-    {"name": "choose-option", "label": "Nomear con lista de opcións"},
-    {"name": "city-map", "label": "Adiviñar vendo o plano"}
-  ],
   "datasets": [
     {"name": "Comarcas", "data": "comarcas.json", "availableModes": ["point-and-click", "guess-location", "write-name"]},
     {"name": "Concellos", "data": "concellos.json", "availableModes": ["point-and-click", "guess-location", "write-name"]},

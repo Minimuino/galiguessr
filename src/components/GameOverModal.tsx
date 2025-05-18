@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import type { RefObject } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 interface Props {
   score?: number;
@@ -32,6 +32,25 @@ export default function GameOverModal({ score, totalDistanceKm, datasetName, mod
         </label>
       </>
     );
+
+  const handleShare = async () => {
+    try {
+      const scoreText = (totalDistanceKm != null) ? `${totalDistanceKm.toFixed(2)} km` : `${score}`;
+      if (navigator.share) {
+        await navigator.share({
+          title: `GaliGuessr - ${datasetName} - ${t("modes." + modeName)}`,
+          text: scoreText,
+          url: "https://galiguessr.gal"
+        });
+      } else {
+        await navigator.clipboard.writeText(`GaliGuessr - ${datasetName} - ${t("modes." + modeName)}\n${scoreText}\nhttps://galiguessr.gal`);
+        alert(t("gameovermodal.copiedToClipboard"));
+      }
+    } catch (err) {
+      console.log("Share failed: ", err);
+    }
+  };
+
   return (
     <dialog
       className="overflow-visible backdrop:bg-black/85 bg-transparent"
@@ -45,11 +64,13 @@ export default function GameOverModal({ score, totalDistanceKm, datasetName, mod
           height={56}
         />
         <p className="text-center font-[family-name:var(--font-geist-mono)]">
-          {datasetName + " - " + modeName}
+          {datasetName + " - " + t("modes." + modeName)}
         </p>
         {scoreLabel}
         <button
           className="basic-button"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={handleShare}
         >
           {t("gameovermodal.share")}
         </button>
