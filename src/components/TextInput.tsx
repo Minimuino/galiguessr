@@ -24,7 +24,7 @@ export default function TextInput({ onEnterText }: Props) {
   return (
     <div>
       <form
-        className="flex flex-row items-center"
+        className="flex flex-row items-center pointer-events-auto"
         onSubmit={handleSubmit}
         autoComplete="off"
       >
@@ -32,7 +32,6 @@ export default function TextInput({ onEnterText }: Props) {
           className={styles.textinput}
           name="textInput"
           placeholder={t("textinput.placeholder")}
-          autoFocus
         />
         <button
           className="rounded-[13px] transition-colors flex items-center justify-center bg-[var(--galician-blue)] hover:bg-[var(--custom-blue)] h-10 sm:h-12 px-3 sm:px-4 absolute right-1"

@@ -96,13 +96,15 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
             padding: { left: 12, top: 12, right: 12, bottom: 12 }
           }
         }}
-        maxBounds={[clampLng(minLng - 5), clampLat(minLat - 2), clampLng(maxLng + 5), clampLat(maxLat + 2)]}
+        maxBounds={[clampLng(minLng - 5), clampLat(minLat - 3), clampLng(maxLng + 5), clampLat(maxLat + 3)]}
         maxZoom={16}
         doubleClickZoom={false}
         dragRotate={false}
+        touchPitch={false}
         cursor="default"
         mapStyle={mapstyle}
         onClick={handleMouseClick}
+        onLoad={event => event.target.touchZoomRotate.disableRotation()}
         ref={mapRef}
       >
         {userGuess && (
@@ -132,7 +134,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
           </>
         )}
       </Map>
-      <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
+      <div className="absolute bottom-[90%] sm:bottom-[15%] left-50 sm:left-[10%]">
         <QuestionLabel
           textToDisplay={features[features.length - 1]?.properties?.name as string}
           disabled={userGuess != null}

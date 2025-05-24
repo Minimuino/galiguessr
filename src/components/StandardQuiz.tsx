@@ -9,18 +9,14 @@ import { distance } from "fastest-levenshtein";
 import type { FeatureCollection } from "geojson";
 import type { MapLayerMouseEvent } from "maplibre-gl";
 import { useMemo, useRef, useState } from "react";
-import GameOverModal from "../components/GameOverModal";
-import MapView from "../components/MapView";
-import QuestionLabel from "../components/QuestionLabel";
-import ScoreLabel from "../components/ScoreLabel";
-import TextInput from "../components/TextInput";
 import { Mode } from "../enums";
 import { shuffle } from "../utils/ArrayUtils";
-
-interface QuestionHistoryEntry {
-  featureName: string;
-  isCorrect: boolean;
-}
+import GameOverModal from "./GameOverModal";
+import MapView from "./MapView";
+import QuestionHistory, { type QuestionHistoryEntry } from "./QuestionHistory";
+import QuestionLabel from "./QuestionLabel";
+import ScoreLabel from "./ScoreLabel";
+import TextInput from "./TextInput";
 
 interface Props {
   data: FeatureCollection;
@@ -84,11 +80,12 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
         rightGuessFeatures={{ features: data.features.filter((feature) => rightGuessFeatureIds.includes(feature.id!)), type: "FeatureCollection" }}
         wrongGuessFeatures={{ features: data.features.filter((feature) => wrongGuessFeatureIds.includes(feature.id!)), type: "FeatureCollection" }}
         interactive={(mode === Mode.PointAndClick)}
+        attributionOnTop={(mode === Mode.WriteName)}
         onClick={(mode === Mode.PointAndClick) ? handleMouseClick : undefined}
         highlightedFeatureId={(mode === Mode.WriteName) ? featureIds[featureIds.length - 1] : undefined}
       />
       {mode === Mode.PointAndClick && (
-        <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
+        <div className="absolute bottom-[84%] sm:bottom-[15%] left-50 sm:left-[10%]">
           <QuestionLabel
             textToDisplay={data.features.find(feature => feature.id === featureIds[featureIds.length - 1])?.properties?.name as string}
           />
@@ -99,22 +96,12 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
         </div>
       )}
       {mode === Mode.WriteName && (
-        <div className="absolute bottom-0 sm:bottom-[15%] left-50 sm:left-[10%]">
-          <div className="translate-x-4 max-h-24 sm:max-h-[400px] overflow-auto flex flex-col-reverse [direction:rtl]">
-            <ul className="translate-x-4 [direction:ltr]">
-              {questionHistory.map((item: QuestionHistoryEntry, index: number) => (
-                <li key={index} className={(item.isCorrect) ? "text-green-700" : "text-red-700"}>
-                  {item.featureName}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="absolute bottom-0 sm:bottom-[15%] left-50 sm:left-[10%] pointer-events-none sm:pointer-events-auto overflow-clip sm:overflow-visible py-3 pb-[calc(env(safe-area-inset-bottom)+4px)]">
+          <QuestionHistory
+            entries={questionHistory}
+          />
           <TextInput
             onEnterText={handleTextInput}
-          />
-          <ScoreLabel
-            score={rightGuessFeatureIds.length}
-            total={data.features.length}
           />
         </div>
       )}

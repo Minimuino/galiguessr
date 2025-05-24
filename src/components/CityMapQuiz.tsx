@@ -12,20 +12,15 @@ import type { FeatureCollection } from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useMemo, useRef, useState } from "react";
 import type { MapRef, StyleSpecification } from "react-map-gl/maplibre";
-import { Map as MaplibreMap } from "react-map-gl/maplibre";
-import GameOverModal from "../components/GameOverModal";
-import ScoreLabel from "../components/ScoreLabel";
-import TextInput from "../components/TextInput";
+import { AttributionControl, Map as MaplibreMap } from "react-map-gl/maplibre";
 import { Mode } from "../enums";
 import { shuffle } from "../utils/ArrayUtils";
+import GameOverModal from "./GameOverModal";
+import QuestionHistory, { type QuestionHistoryEntry } from "./QuestionHistory";
+import TextInput from "./TextInput";
 
 import mapstylejson from "../assets/city-map-style.json";
 const mapstyle = mapstylejson as StyleSpecification;
-
-interface QuestionHistoryEntry {
-  featureName: string;
-  isCorrect: boolean;
-}
 
 interface Props {
   data: FeatureCollection;
@@ -89,24 +84,21 @@ export default function CityMapQuiz({ data, datasetName, onResetGame }: Props) {
         maxBounds={[minLng, minLat, maxLng, maxLat]}
         doubleClickZoom={false}
         dragRotate={false}
+        touchPitch={false}
         cursor="default"
         mapStyle={mapstyle}
+        attributionControl={false}
         ref={mapRef}
-      />
-      <div className="absolute bottom-[6%] sm:bottom-[15%] left-50 sm:left-[10%]">
-        <ul className="translate-x-6">
-          {questionHistory.map((item: QuestionHistoryEntry, index: number) => (
-            <li key={index} className={(item.isCorrect) ? "text-green-700" : "text-red-700"}>
-              {item.featureName}
-            </li>
-          ))}
-        </ul>
+        onLoad={event => event.target.touchZoomRotate.disableRotation()}
+      >
+        <AttributionControl position="top-right" compact />
+      </MaplibreMap>
+      <div className="absolute bottom-0 sm:bottom-[15%] left-50 sm:left-[10%] pointer-events-none sm:pointer-events-auto overflow-clip sm:overflow-visible py-3 pb-[calc(env(safe-area-inset-bottom)+4px)]">
+        <QuestionHistory
+          entries={questionHistory}
+        />
         <TextInput
           onEnterText={handleTextInput}
-        />
-        <ScoreLabel
-          score={rightGuessFeatureIds.length}
-          total={data.features.length}
         />
       </div>
       <GameOverModal

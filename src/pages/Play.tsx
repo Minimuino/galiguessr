@@ -119,7 +119,7 @@ export default function Play() {
     <>
       {quiz}
       <Link
-        className="back-button absolute top-[2%] sm:top-[4%] left-[3%]"
+        className="back-button absolute top-[3%] sm:top-[4%] left-[3%]"
         to="/"
       >
         <img
