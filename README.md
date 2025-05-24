@@ -21,4 +21,5 @@ React geography quiz 🌍 Originally designed for [Galicia](https://en.wikipedia
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-Every file in this project is licensed under the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0), Copyright (C) 2025 Carlos Pérez Ramil.
+Every file in this project is licensed under the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0), Copyright (C) 2025 Carlos Pérez Ramil, except for those files in /public/fonts which have the following license:
+  - /public/fonts/GeistMono-Variable.woff2 - SIL Open Font License, Version 1.1. This license is available with a FAQ at https://scripts.sil.org/OFL

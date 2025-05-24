@@ -1,22 +1,29 @@
-import { useRef, useMemo } from "react";
-import Map, { Source, Layer } from "react-map-gl/maplibre";
-import type { MapLayerMouseEvent, MapRef, StyleSpecification } from "react-map-gl/maplibre";
-import "maplibre-gl/dist/maplibre-gl.css";
-import type { FeatureCollection } from "geojson";
+/*
+ * Copyright (c) 2025, Carlos Pérez Ramil
+ *
+ * This file is part of the GaliGuessr project and is licensed under the GNU GPL v3.0.
+ * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
+ */
+
 import bbox from "@turf/bbox";
+import type { FeatureCollection } from "geojson";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { useMemo, useRef } from "react";
+import type { MapLayerMouseEvent, MapRef, StyleSpecification } from "react-map-gl/maplibre";
+import Map, { Layer, Source } from "react-map-gl/maplibre";
+import { clampLat, clampLng } from "../utils/MapUtils";
 import {
-  hoverPolygonLayerStyle,
   hoverLineLayerStyle,
   hoverPointLayerStyle,
+  hoverPolygonLayerStyle,
   outlinePolygonLayerStyle,
-  rightGuessPolygonLayerStyle,
   rightGuessLineLayerStyle,
   rightGuessPointLayerStyle,
-  wrongGuessPolygonLayerStyle,
+  rightGuessPolygonLayerStyle,
   wrongGuessLineLayerStyle,
-  wrongGuessPointLayerStyle
+  wrongGuessPointLayerStyle,
+  wrongGuessPolygonLayerStyle
 } from "./mapstyle";
-import { clampLat, clampLng } from "../utils/MapUtils";
 
 import mapstylejson from "../assets/main-map-style.json";
 const mapstyle = mapstylejson as StyleSpecification;

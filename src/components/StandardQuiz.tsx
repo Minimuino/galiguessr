@@ -1,14 +1,21 @@
-import { useState, useRef, useMemo } from "react";
-import type { MapLayerMouseEvent } from "maplibre-gl";
-import type { FeatureCollection } from "geojson";
+/*
+ * Copyright (c) 2025, Carlos Pérez Ramil
+ *
+ * This file is part of the GaliGuessr project and is licensed under the GNU GPL v3.0.
+ * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
+ */
+
 import { distance } from "fastest-levenshtein";
-import MapView from "../components/MapView";
-import ScoreLabel from "../components/ScoreLabel";
-import QuestionLabel from "../components/QuestionLabel";
+import type { FeatureCollection } from "geojson";
+import type { MapLayerMouseEvent } from "maplibre-gl";
+import { useMemo, useRef, useState } from "react";
 import GameOverModal from "../components/GameOverModal";
+import MapView from "../components/MapView";
+import QuestionLabel from "../components/QuestionLabel";
+import ScoreLabel from "../components/ScoreLabel";
 import TextInput from "../components/TextInput";
-import { shuffle } from "../utils/ArrayUtils";
 import { Mode } from "../enums";
+import { shuffle } from "../utils/ArrayUtils";
 
 interface QuestionHistoryEntry {
   featureName: string;

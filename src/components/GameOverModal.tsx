@@ -1,6 +1,13 @@
-import { Link } from "react-router";
+/*
+ * Copyright (c) 2025, Carlos Pérez Ramil
+ *
+ * This file is part of the GaliGuessr project and is licensed under the GNU GPL v3.0.
+ * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
+ */
+
 import type { RefObject } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 
 interface Props {
   score?: number;
@@ -38,12 +45,12 @@ export default function GameOverModal({ score, totalDistanceKm, datasetName, mod
       const scoreText = (totalDistanceKm != null) ? `${totalDistanceKm.toFixed(2)} km` : `${score}`;
       if (navigator.share) {
         await navigator.share({
-          title: `GaliGuessr - ${datasetName} - ${t("modes." + modeName)}`,
+          title: `GaliGuessr - ${datasetName} - ${t("modes." + modeName)}:`,
           text: scoreText,
           url: "https://galiguessr.gal"
         });
       } else {
-        await navigator.clipboard.writeText(`GaliGuessr - ${datasetName} - ${t("modes." + modeName)}\n${scoreText}\nhttps://galiguessr.gal`);
+        await navigator.clipboard.writeText(`GaliGuessr - ${datasetName} - ${t("modes." + modeName)}:\n${scoreText}\nhttps://galiguessr.gal`);
         alert(t("gameovermodal.copiedToClipboard"));
       }
     } catch (err) {

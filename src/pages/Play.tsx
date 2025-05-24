@@ -1,13 +1,20 @@
-import { Link } from "react-router";
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
-import type { FeatureCollection, Feature } from "geojson";
+/*
+ * Copyright (c) 2025, Carlos Pérez Ramil
+ *
+ * This file is part of the GaliGuessr project and is licensed under the GNU GPL v3.0.
+ * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
+ */
+
 import centroid from "@turf/centroid";
-import { Mode } from "../enums";
-import StandardQuiz from "../components/StandardQuiz";
-import GuessLocationQuiz from "../components/GuessLocationQuiz";
+import type { Feature, FeatureCollection } from "geojson";
+import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { Link } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import CityMapQuiz from "../components/CityMapQuiz";
+import GuessLocationQuiz from "../components/GuessLocationQuiz";
+import StandardQuiz from "../components/StandardQuiz";
+import { Mode } from "../enums";
 import { shuffle } from "../utils/ArrayUtils";
 import { removeFileExtension } from "../utils/StringUtils";
 

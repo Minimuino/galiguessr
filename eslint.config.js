@@ -1,7 +1,14 @@
+/*
+ * Copyright (c) 2025, Carlos Pérez Ramil
+ *
+ * This file is part of the GaliGuessr project and is licensed under the GNU GPL v3.0.
+ * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
+ */
+
 import js from "@eslint/js"
-import globals from "globals"
 import reactHooks from "eslint-plugin-react-hooks"
 import reactRefresh from "eslint-plugin-react-refresh"
+import globals from "globals"
 import tseslint from "typescript-eslint"
 
 export default tseslint.config(

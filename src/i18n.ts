@@ -1,8 +1,15 @@
+/*
+ * Copyright (c) 2025, Carlos Pérez Ramil
+ *
+ * This file is part of the GaliGuessr project and is licensed under the GNU GPL v3.0.
+ * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
+ */
+
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import glTranslations from "./assets/locales/gl/translation.json";
 import enTranslations from "./assets/locales/en/translation.json";
+import glTranslations from "./assets/locales/gl/translation.json";
 
 const resources = {
   en: { translation: enTranslations },

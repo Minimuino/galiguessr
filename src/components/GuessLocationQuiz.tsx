@@ -1,17 +1,24 @@
-import { useState, useRef, useMemo } from "react";
-import { LngLat, type MapLayerMouseEvent } from "maplibre-gl";
-import Map, { Source, Layer, Marker, type MapRef, type StyleSpecification } from "react-map-gl/maplibre";
-import type { Feature, FeatureCollection, LineString } from "geojson";
-import { useTranslation } from 'react-i18next';
+/*
+ * Copyright (c) 2025, Carlos Pérez Ramil
+ *
+ * This file is part of the GaliGuessr project and is licensed under the GNU GPL v3.0.
+ * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
+ */
+
 import bbox from "@turf/bbox";
-import { Mode } from "../enums";
-import ScoreLabel from "../components/ScoreLabel";
-import GameOverModal from "../components/GameOverModal";
+import type { Feature, FeatureCollection, LineString } from "geojson";
+import { LngLat, type MapLayerMouseEvent } from "maplibre-gl";
+import { useMemo, useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import Map, { Layer, Marker, Source, type MapRef, type StyleSpecification } from "react-map-gl/maplibre";
 import DistanceLabel from "../components/DistanceLabel";
+import GameOverModal from "../components/GameOverModal";
 import QuestionLabel from "../components/QuestionLabel";
+import ScoreLabel from "../components/ScoreLabel";
+import { Mode } from "../enums";
 import { shuffle } from "../utils/ArrayUtils";
 import { clampLat, clampLng, getDistanceToCurrentFeature } from "../utils/MapUtils";
-import { hoverPolygonLayerStyle, hoverLineLayerStyle, hoverPointLayerStyle, outlinePolygonLayerStyle } from "./mapstyle";
+import { hoverLineLayerStyle, hoverPointLayerStyle, hoverPolygonLayerStyle, outlinePolygonLayerStyle } from "./mapstyle";
 import styles from "./styles.module.css";
 
 import mapstylejson from "../assets/main-map-style.json";

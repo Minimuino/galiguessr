@@ -1,15 +1,22 @@
-import { useState, useRef, useMemo } from "react";
-import type { FeatureCollection } from "geojson";
-import { Map as MaplibreMap } from "react-map-gl/maplibre";
-import type { MapRef, StyleSpecification } from "react-map-gl/maplibre";
-import "maplibre-gl/dist/maplibre-gl.css";
+/*
+ * Copyright (c) 2025, Carlos Pérez Ramil
+ *
+ * This file is part of the GaliGuessr project and is licensed under the GNU GPL v3.0.
+ * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
+ */
+
 import bbox from "@turf/bbox";
 import transformScale from "@turf/transform-scale";
 import { distance } from "fastest-levenshtein";
-import { Mode } from "../enums";
-import ScoreLabel from "../components/ScoreLabel";
+import type { FeatureCollection } from "geojson";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { useMemo, useRef, useState } from "react";
+import type { MapRef, StyleSpecification } from "react-map-gl/maplibre";
+import { Map as MaplibreMap } from "react-map-gl/maplibre";
 import GameOverModal from "../components/GameOverModal";
+import ScoreLabel from "../components/ScoreLabel";
 import TextInput from "../components/TextInput";
+import { Mode } from "../enums";
 import { shuffle } from "../utils/ArrayUtils";
 
 import mapstylejson from "../assets/city-map-style.json";

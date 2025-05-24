@@ -1,9 +1,16 @@
+/*
+ * Copyright (c) 2025, Carlos Pérez Ramil
+ *
+ * This file is part of the GaliGuessr project and is licensed under the GNU GPL v3.0.
+ * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
+ */
+
+import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
+import distance from "@turf/distance";
+import nearestPointOnLine from "@turf/nearest-point-on-line";
+import polygonToLine from "@turf/polygon-to-line";
 import type { Geometry, LineString } from "geojson";
 import { LngLat } from "maplibre-gl";
-import distance from "@turf/distance";
-import polygonToLine from "@turf/polygon-to-line";
-import nearestPointOnLine from "@turf/nearest-point-on-line";
-import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 
 interface DistanceToFeature {
   distance: number;
