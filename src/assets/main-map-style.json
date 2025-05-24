@@ -1847,7 +1847,7 @@
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "boundary",
-      "minzoom": 5,
+      "minzoom": 0,
       "filter": [
         "all",
         [">=", ["get", "admin_level"], 3],
@@ -1856,7 +1856,7 @@
         ["!=", ["get", "disputed"], 1],
         ["!", ["has", "claimed_by"]]
       ],
-      "layout": {"visibility": "none"},
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "hsl(0,0%,70%)",
         "line-dasharray": [1, 1],
@@ -1875,32 +1875,11 @@
         ["!=", ["get", "disputed"], 1],
         ["!", ["has", "claimed_by"]]
       ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round",
-        "visibility": "none"
-      },
+      "layout": {"visibility": "visible"},
       "paint": {
-        "line-color": "hsl(248,7%,66%)",
-        "line-opacity": ["interpolate", ["linear"], ["zoom"], 0, 0.4, 4, 1],
-        "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1, 5, 1.2, 12, 3]
-      }
-    },
-    {
-      "id": "boundary_disputed",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "boundary",
-      "filter": [
-        "all",
-        ["!=", ["get", "maritime"], 1],
-        ["==", ["get", "disputed"], 1]
-      ],
-      "layout": {"visibility": "none"},
-      "paint": {
-        "line-color": "hsl(248,7%,66%)",
-        "line-dasharray": [1, 2],
-        "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1, 5, 1.2, 12, 3]
+        "line-color": "hsl(0,0%,70%)",
+        "line-dasharray": [1, 1],
+        "line-width": ["interpolate", ["linear", 1], ["zoom"], 7, 1, 11, 2]
       }
     }
   ],
