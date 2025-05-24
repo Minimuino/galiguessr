@@ -21,13 +21,13 @@ i18n
   .init({
     resources,
     lng: "gl",
-    fallbackLng: 'gl',
+    fallbackLng: "gl",
     interpolation: {
       escapeValue: false
     }
   })
   .catch((err) => {
-    console.error('i18n initialization failed', err);
+    console.error("i18n initialization failed", err);
   });
 
 export default i18n;

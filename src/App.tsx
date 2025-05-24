@@ -5,9 +5,10 @@
  * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
  */
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import CreditsModal from "./components/CreditsModal";
 import { Mode } from "./enums";
 import { removeFileExtension } from "./utils/StringUtils";
 
@@ -25,6 +26,7 @@ export default function Home() {
   const [selectedDataset, setSelectedDataset] = useState<Dataset>();
   const [selectedMode, setSelectedMode] = useState<Mode>();
   const { t } = useTranslation();
+  const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const onClickStart = () => {
     setShowMenu(true);
@@ -141,7 +143,7 @@ export default function Home() {
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
           href="https://github.com"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
         >
           <img
             aria-hidden
@@ -156,7 +158,7 @@ export default function Home() {
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
           href="https://github.com"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
         >
           <img
             aria-hidden
@@ -169,9 +171,7 @@ export default function Home() {
         </a>
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://github.com"
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={() => modalRef.current?.showModal()}
         >
           <img
             aria-hidden
@@ -182,6 +182,9 @@ export default function Home() {
           />
           {t("credits")}
         </a>
+        <CreditsModal
+          ref={modalRef}
+        />
       </footer>
     </div>
   );

@@ -4,7 +4,7 @@ React geography quiz 🌍 Originally designed for [Galicia](https://en.wikipedia
 
 ## Features
 
-- Three game modes: Point & Click, Write Name and Guess Location.
+- Four game modes: Point & Click, Write Name, Guess Location and City Map.
 - Load any valid geojson file and create a custom map quiz.
 - Responsive design.
 
@@ -13,9 +13,10 @@ React geography quiz 🌍 Originally designed for [Galicia](https://en.wikipedia
 1. Fork this repo.
 2. Choose a name and logo for your project and set it in metadata properties.
 3. Replace all files in `/data/geojson` with your own. Make sure each Feature item has an `id` field and a `properties` field that includes the `name` property.
-4. Edit `settings.json` to reference each one of your geojson files.
-5. Set your language to 'en', or add new i18n files if you want so.
-6. Deploy and enjoy!
+4. Edit `/src/assets/settings.json` to reference each one of your geojson files.
+5. Set your language to 'en' in `/src/i18n.ts`, or add new i18n files if you want so.
+6. Edit `/src/components/CreditsModal.tsx` to add your own copyright notice.
+7. Deploy and enjoy!
 
 ## License
 
