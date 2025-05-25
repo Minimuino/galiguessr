@@ -20,7 +20,7 @@
     "hit": "Localización correcta!",
     "miss": "A {{distance}} km da localización correcta"
   },
-  "scorelabel": {
+  "statuslabel": {
     "totalDistance": "{{distance}} km de erro acumulado"
   },
   "gameovermodal": {

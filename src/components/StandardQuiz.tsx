@@ -15,7 +15,7 @@ import GameOverModal from "./GameOverModal";
 import MapView from "./MapView";
 import QuestionHistory, { type QuestionHistoryEntry } from "./QuestionHistory";
 import QuestionLabel from "./QuestionLabel";
-import ScoreLabel from "./ScoreLabel";
+import StatusLabel from "./StatusLabel";
 import TextInput from "./TextInput";
 
 interface Props {
@@ -89,8 +89,8 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
           <QuestionLabel
             textToDisplay={data.features.find(feature => feature.id === featureIds[featureIds.length - 1])?.properties?.name as string}
           />
-          <ScoreLabel
-            score={rightGuessFeatureIds.length}
+          <StatusLabel
+            current={data.features.length - featureIds.length + 1}
             total={data.features.length}
           />
         </div>

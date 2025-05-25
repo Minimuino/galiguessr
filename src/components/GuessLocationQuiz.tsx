@@ -11,14 +11,14 @@ import { LngLat, type MapLayerMouseEvent } from "maplibre-gl";
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import Map, { Layer, Marker, Source, type MapRef, type StyleSpecification } from "react-map-gl/maplibre";
-import DistanceLabel from "../components/DistanceLabel";
-import GameOverModal from "../components/GameOverModal";
-import QuestionLabel from "../components/QuestionLabel";
-import ScoreLabel from "../components/ScoreLabel";
 import { Mode } from "../enums";
 import { shuffle } from "../utils/ArrayUtils";
 import { clampLat, clampLng, getDistanceToCurrentFeature } from "../utils/MapUtils";
+import DistanceLabel from "./DistanceLabel";
+import GameOverModal from "./GameOverModal";
 import { hoverLineLayerStyle, hoverPointLayerStyle, hoverPolygonLayerStyle, outlinePolygonLayerStyle } from "./mapstyle";
+import QuestionLabel from "./QuestionLabel";
+import StatusLabel from "./StatusLabel";
 import styles from "./styles.module.css";
 
 import mapstylejson from "../assets/main-map-style.json";
@@ -134,16 +134,20 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
           </>
         )}
       </Map>
-      <div className="absolute bottom-[90%] sm:bottom-[15%] left-50 sm:left-[10%]">
+      <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
         <QuestionLabel
           textToDisplay={features[features.length - 1]?.properties?.name as string}
           disabled={userGuess != null}
+        />
+        <StatusLabel
+          current={data.features.length - features.length + 1}
+          total={data.features.length}
         />
       </div>
       {userGuess && (
         <div className="absolute bottom-[6%] sm:bottom-[10%] flex flex-col items-center gap-2 text-2xl pointer-events-none">
           <DistanceLabel distance={currentDistanceKm} />
-          <ScoreLabel
+          <StatusLabel
             distance={totalDistanceKm + currentDistanceKm}
           />
           <button className={styles.quizbutton}

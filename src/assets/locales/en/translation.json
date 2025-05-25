@@ -20,7 +20,7 @@
     "hit": "Correct guess!",
     "miss": "{{distance}} km from the actual location"
   },
-  "scorelabel": {
+  "statuslabel": {
     "totalDistance": "{{distance}} km of accumulated error"
   },
   "gameovermodal": {
