@@ -15,6 +15,7 @@ import App from "./App.tsx";
 import "./i18n";
 import "./index.css";
 import Play from "./pages/Play.tsx";
+import SelectFile from "./pages/SelectFile.tsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/play",
     element: <Play />,
+  },
+  {
+    path: "/custom-quiz",
+    element: <SelectFile />,
   },
 ]);
 

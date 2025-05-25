@@ -10,7 +10,7 @@ import type { Feature, FeatureCollection } from "geojson";
 import { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from 'react-router-dom';
 import CityMapQuiz from "../components/CityMapQuiz";
 import GuessLocationQuiz from "../components/GuessLocationQuiz";
 import StandardQuiz from "../components/StandardQuiz";
@@ -53,10 +53,12 @@ export default function Play() {
   const [data, setData] = useState<FeatureCollection | undefined>();
   const [error, setError] = useState<Error | null>(null);
   const [queryParams] = useSearchParams();
+  const location = useLocation();
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (queryParams.get("dataset") === "random") {
+    const dataset = queryParams.get("dataset");
+    if (dataset === "random") {
       selectRandomData()
         .then((featureCollection) => {
           setData(featureCollection);
@@ -64,8 +66,15 @@ export default function Play() {
         .catch((error: Error) => {
           setError(error);
         });
+    } else if (dataset == null) {
+      if (location.state == null) {
+        setError(new Error("No dataset was provided"));
+        return;
+      }
+      const { fileContent } = location.state as { fileContent: FeatureCollection };
+      setData(fileContent);
     } else {
-      import(`../assets/geojson/${queryParams.get("dataset")}.json`)
+      import(`../assets/geojson/${dataset}.json`)
         .then((geojson: { default: FeatureCollection }) => {
           const featureCollection = geojson.default;
           setData(featureCollection);
@@ -74,7 +83,7 @@ export default function Play() {
           setError(error);
         });
     }
-  }, [queryParams]);
+  }, [location.state, queryParams]);
 
   if (error) {
     return <p className="h-screen flex items-center justify-center">{String(error)}</p>;
@@ -82,8 +91,6 @@ export default function Play() {
   if (!data) {
     return <p className="h-screen flex items-center justify-center">Loading...</p>;
   }
-
-  // Validate datasets are well formed geojsons with id and name fields
 
   const mode = (queryParams.get("mode") || Mode.PointAndClick) as Mode;
   const datasetName = settingsJson.datasets.find(dataset => removeFileExtension(dataset.data) === queryParams.get("dataset"))?.name;

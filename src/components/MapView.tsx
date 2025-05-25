@@ -11,7 +11,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useMemo, useRef } from "react";
 import type { MapLayerMouseEvent, MapLayerTouchEvent, MapRef, StyleSpecification } from "react-map-gl/maplibre";
 import Map, { AttributionControl, Layer, Source } from "react-map-gl/maplibre";
-import { clampLat, clampLng } from "../utils/MapUtils";
+import { clampMapBounds } from "../utils/MapUtils";
 import {
   hoverLineLayerStyle,
   hoverPointLayerStyle,
@@ -118,7 +118,7 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
           padding: { left: 12, top: 12, right: 12, bottom: 12 }
         }
       }}
-      maxBounds={[clampLng(minLng - 5), clampLat(minLat - 3), clampLng(maxLng + 5), clampLat(maxLat + 3)]}
+      maxBounds={clampMapBounds([minLng - 5, minLat - 3, maxLng + 5, maxLat + 3])}
       maxZoom={16}
       doubleClickZoom={false}
       dragRotate={false}

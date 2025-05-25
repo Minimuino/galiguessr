@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import Map, { Layer, Marker, Source, type MapRef, type StyleSpecification } from "react-map-gl/maplibre";
 import { Mode } from "../enums";
 import { shuffle } from "../utils/ArrayUtils";
-import { clampLat, clampLng, getDistanceToCurrentFeature } from "../utils/MapUtils";
+import { clampMapBounds, getDistanceToCurrentFeature } from "../utils/MapUtils";
 import DistanceLabel from "./DistanceLabel";
 import GameOverModal from "./GameOverModal";
 import { hoverLineLayerStyle, hoverPointLayerStyle, hoverPolygonLayerStyle, outlinePolygonLayerStyle } from "./mapstyle";
@@ -96,7 +96,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
             padding: { left: 12, top: 12, right: 12, bottom: 12 }
           }
         }}
-        maxBounds={[clampLng(minLng - 5), clampLat(minLat - 3), clampLng(maxLng + 5), clampLat(maxLat + 3)]}
+        maxBounds={clampMapBounds([minLng - 5, minLat - 3, maxLng + 5, maxLat + 3])}
         maxZoom={16}
         doubleClickZoom={false}
         dragRotate={false}

@@ -69,11 +69,17 @@ export function getDistanceToCurrentFeature(currentFeatureGeometry: Geometry, us
   return result;
 }
 
+export function clampMapBounds(bounds: [number, number, number, number]): [number, number, number, number] | undefined {
+  let [minLng, minLat, maxLng, maxLat] = bounds;
 
-export function clampLng(lng: number): number {
-  return Math.min(Math.max(lng, -180.0), 180.0);
-}
+  minLng = ((minLng + 180) % 360 + 360) % 360 - 180;
+  maxLng = ((maxLng + 180) % 360 + 360) % 360 - 180;
+  if (minLng > maxLng) {
+    return undefined;
+  }
 
-export function clampLat(lat: number): number {
-  return Math.min(Math.max(lat, -90.0), 90.0);
+  minLat = Math.min(Math.max(minLat, -90.0), 90.0);
+  maxLat = Math.min(Math.max(maxLat, -90.0), 90.0);
+
+  return [minLng, minLat, maxLng, maxLat];
 }
