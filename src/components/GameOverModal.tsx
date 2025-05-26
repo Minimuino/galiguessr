@@ -65,7 +65,7 @@ export default function GameOverModal({ score, totalDistanceKm, datasetName, mod
     >
       <div className="rounded-xl overflow-hidden bg-white p-8 flex flex-col gap-8 items-center">
         <img
-          src="/logo.svg"
+          src="./logo.svg"
           alt="Galiguessr logo"
           width={280}
           height={56}

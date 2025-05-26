@@ -51,7 +51,7 @@ export default function Home() {
       <main className="flex flex-col gap-16 row-start-2 items-center">
         <div className="flex flex-col gap-6">
           <img
-            src="/logo.svg"
+            src="./logo.svg"
             alt="Galiguessr logo"
             width={450}
             height={76}
@@ -90,7 +90,7 @@ export default function Home() {
                 onClick={onClickBack}
               >
                 <img
-                  src="/back.svg"
+                  src="./back.svg"
                   alt="Back"
                   width={14}
                   height={14}
@@ -147,7 +147,7 @@ export default function Home() {
         >
           <img
             aria-hidden
-            src="/github-mark.svg"
+            src="./github-mark.svg"
             alt="Github icon"
             width={16}
             height={16}
@@ -162,7 +162,7 @@ export default function Home() {
         >
           <img
             aria-hidden
-            src="/globe.svg"
+            src="./globe.svg"
             alt="Error icon"
             width={16}
             height={16}
@@ -175,7 +175,7 @@ export default function Home() {
         >
           <img
             aria-hidden
-            src="/file.svg"
+            src="./file.svg"
             alt="Credits icon"
             width={16}
             height={16}

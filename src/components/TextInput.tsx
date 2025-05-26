@@ -38,7 +38,7 @@ export default function TextInput({ onEnterText }: Props) {
           type="submit"
         >
           <img
-            src="/send.svg"
+            src="./send.svg"
             alt="Submit icon"
             width={28}
             height={28}

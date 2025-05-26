@@ -131,7 +131,7 @@ export default function Play() {
       >
         <img
           className="-translate-x-[2px]"
-          src="/back.svg"
+          src="./back.svg"
           alt="Back"
           width={16}
           height={16}

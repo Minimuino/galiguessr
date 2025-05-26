@@ -29,8 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/custom-quiz",
     element: <SelectFile />,
-  },
-]);
+  }],
+  {
+    basename: import.meta.env.BASE_URL
+  });
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
