@@ -45,12 +45,11 @@ export default function GameOverModal({ score, totalDistanceKm, datasetName, mod
       const scoreText = (totalDistanceKm != null) ? `${totalDistanceKm.toFixed(2)} km` : `${score}`;
       if (navigator.share) {
         await navigator.share({
-          title: `GaliGuessr - ${datasetName} - ${t("modes." + modeName)}:`,
-          text: scoreText,
-          url: "https://galiguessr.gal"
+          text: `GaliGuessr - ${datasetName} - ${t("modes." + modeName)}: ${scoreText}`,
+          url: "https://minimuino.github.io/galiguessr/"
         });
       } else {
-        await navigator.clipboard.writeText(`GaliGuessr - ${datasetName} - ${t("modes." + modeName)}:\n${scoreText}\nhttps://galiguessr.gal`);
+        await navigator.clipboard.writeText(`GaliGuessr - ${datasetName} - ${t("modes." + modeName)}:\n${scoreText}\nhttps://minimuino.github.io/galiguessr/`);
         alert(t("gameovermodal.copiedToClipboard"));
       }
     } catch (err) {

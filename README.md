@@ -10,7 +10,7 @@ React geography quiz 🌍 Originally designed for [Galicia](https://en.wikipedia
 
 ## Usage
 
-Go to [the custom quiz page](https://minimuino.github.io/galiguessr/custom-quiz), choose a valid geojson file from your local storage, select game mode and hit play button. The geojson file must meet two requirements:
+Go to [the custom quiz page](https://minimuino.github.io/galiguessr/#/custom-quiz), choose a valid geojson file from your local storage, select game mode and hit play button. The geojson file must meet two requirements:
 - It is a valid geojson: https://datatracker.ietf.org/doc/html/rfc7946
 - Every Feature item has a `properties` field that includes the `name` property with some string value.
 

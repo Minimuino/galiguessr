@@ -29,7 +29,7 @@ export default function CreditsModal({ ref }: Props) {
         />
         <p>Copyright (c) 2025, Carlos Pérez Ramil</p>
         <p>
-          Este proxecto é software libre. Podes atopar <a className="text-blue-600 hover:underline" href="https://github.com/Minimuino" target="_blank" rel="noopener">aquí</a> o código fonte publicado baixo a licencia GNU GPL v3.
+          Este proxecto é software libre. Podes atopar <a className="text-blue-600 hover:underline" href="https://github.com/Minimuino/galiguessr" target="_blank" rel="noopener">aquí</a> o código fonte publicado baixo a licencia GNU GPL v3.
         </p>
         <ul className="text-left">
           <li>Orixe dos datos:</li>

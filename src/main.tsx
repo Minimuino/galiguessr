@@ -8,7 +8,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  createBrowserRouter,
+  createHashRouter,
   RouterProvider,
 } from "react-router-dom";
 import App from "./App.tsx";
@@ -17,7 +17,7 @@ import "./index.css";
 import Play from "./pages/Play.tsx";
 import SelectFile from "./pages/SelectFile.tsx";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,
@@ -29,10 +29,7 @@ const router = createBrowserRouter([
   {
     path: "/custom-quiz",
     element: <SelectFile />,
-  }],
-  {
-    basename: import.meta.env.BASE_URL
-  });
+  }]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
