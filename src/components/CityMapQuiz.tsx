@@ -11,7 +11,7 @@ import { distance } from "fastest-levenshtein";
 import type { FeatureCollection } from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useMemo, useRef, useState } from "react";
-import type { MapRef, StyleSpecification } from "react-map-gl/maplibre";
+import type { LngLatBoundsLike, MapRef, StyleSpecification } from "react-map-gl/maplibre";
 import { AttributionControl, Map as MaplibreMap } from "react-map-gl/maplibre";
 import { Mode } from "../enums";
 import { shuffle } from "../utils/ArrayUtils";
@@ -49,10 +49,12 @@ export default function CityMapQuiz({ data, datasetName, onResetGame }: Props) {
 
   const currentFeatureId = featureIds[featureIds.length - 1];
   const currentFeature = data.features.find(item => item.id === currentFeatureId) || data;
-  const [initialMinLng, initialMinLat, initialMaxLng, initialMaxLat] = bbox(transformScale(currentFeature, 0.65));
-  const [minLng, minLat, maxLng, maxLat] = bbox(transformScale(currentFeature, 2));
-  mapRef.current?.fitBounds([initialMinLng, initialMinLat, initialMaxLng, initialMaxLat], { padding: 0, duration: 1000 });
-  mapRef.current?.getMap().setMaxBounds([minLng, minLat, maxLng, maxLat]);
+
+  // setMaxBounds must be called before fitBounds
+  const maxBounds = bbox(transformScale(currentFeature, 2)) as LngLatBoundsLike;
+  mapRef.current?.getMap().setMaxBounds(maxBounds);
+  const initialBounds = bbox(transformScale(currentFeature, 0.65)) as LngLatBoundsLike;
+  mapRef.current?.fitBounds(initialBounds, { padding: 0, duration: 1500 });
 
   const handleTextInput = (input: string) => {
     setUserGuess(input);
@@ -79,9 +81,9 @@ export default function CityMapQuiz({ data, datasetName, onResetGame }: Props) {
     <div className="h-screen flex items-center justify-center">
       <MaplibreMap
         initialViewState={{
-          bounds: [initialMinLng, initialMinLat, initialMaxLng, initialMaxLat]
+          bounds: initialBounds
         }}
-        maxBounds={[minLng, minLat, maxLng, maxLat]}
+        maxBounds={maxBounds}
         doubleClickZoom={false}
         dragRotate={false}
         touchPitch={false}
