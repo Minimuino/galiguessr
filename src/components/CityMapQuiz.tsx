@@ -95,16 +95,19 @@ export default function CityMapQuiz({ data, datasetName, onResetGame }: Props) {
       >
         <AttributionControl position="top-right" compact />
       </MaplibreMap>
-      <div className="absolute bottom-0 sm:bottom-[15%] left-50 sm:left-[10%] pointer-events-none sm:pointer-events-auto overflow-clip sm:overflow-visible py-3 pb-[calc(env(safe-area-inset-bottom)+4px)]">
-        <QuestionHistory
-          entries={questionHistory}
-        />
-        <TextInput
-          onEnterText={handleTextInput}
-        />
-      </div>
+      {featureIds.length > 0 && (
+        <div className="absolute bottom-0 sm:bottom-[15%] left-50 sm:left-[10%] pointer-events-none sm:pointer-events-auto overflow-clip sm:overflow-visible py-3 pb-[calc(env(safe-area-inset-bottom)+4px)]">
+          <QuestionHistory
+            entries={questionHistory}
+          />
+          <TextInput
+            onEnterText={handleTextInput}
+          />
+        </div>
+      )}
       <GameOverModal
         score={rightGuessFeatureIds.length}
+        numberOfQuestions={data.features.length}
         datasetName={datasetName}
         modeName={Mode.CityMap}
         playAgainCallback={onResetGame}

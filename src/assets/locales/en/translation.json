@@ -25,6 +25,7 @@
   },
   "gameovermodal": {
     "totalDistance": "Total accumulated error:",
+    "distanceAverage": "{{avg}} km on average",
     "finalScore": "Your final score:",
     "share": "Share",
     "copiedToClipboard": "Link copied to clipboard",

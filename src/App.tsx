@@ -162,15 +162,15 @@ export default function Home() {
         >
           <img
             aria-hidden
-            src="./globe.svg"
+            src="./email.svg"
             alt="Error icon"
-            width={16}
+            width={18}
             height={16}
           />
           {t("contact")}
         </a>
         <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4 cursor-pointer"
           onClick={() => modalRef.current?.showModal()}
         >
           <img

@@ -1,6 +1,6 @@
 # GaliGuessr
 
-React geography quiz 🌍 Originally designed for [Galicia](https://en.wikipedia.org/wiki/Galicia_(Spain)) but customizable for any region in the world. Try it for yourself at https://minimuino.github.io/galiguessr/
+React geography quiz generator 🌍 Originally designed for [Galicia](https://en.wikipedia.org/wiki/Galicia_(Spain)) but customizable for any region in the world. Try it for yourself at https://minimuino.github.io/galiguessr/
 
 ## Features
 
@@ -33,5 +33,6 @@ You can also make your own geography quiz by following these steps:
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-Every file in this project is licensed under the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0), Copyright (C) 2025 Carlos Pérez Ramil, except for those files in /public/fonts which have the following license:
+Every file in this project is licensed under the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0), Copyright (C) 2025 Carlos Pérez Ramil, except for the following files in the `/public` folder which have a different copyright owner:
   - /public/fonts/GeistMono-Variable.woff2 - SIL Open Font License, Version 1.1. This license is available with a FAQ at https://scripts.sil.org/OFL
+  - /public/github-mark.svg - Copyright (c) 2025 GitHub, Inc. https://github.com/logos

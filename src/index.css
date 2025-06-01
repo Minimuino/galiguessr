@@ -43,6 +43,10 @@ body {
   @apply rounded-full border border-solid border-black/[.08] transition-colors flex items-center opacity-90 hover:opacity-100 hover:bg-[#f2f2f2] hover:border-transparent px-4 h-12 shadow-md;
 }
 
+.close-button {
+  @apply absolute -top-2 -right-2 flex items-center justify-center w-7 h-7 bg-zinc-300 rounded-full shadow;
+}
+
 @font-face {
   font-family: "Geist Mono";
   src: url("/fonts/GeistMono-Variable.woff2") format("woff2");

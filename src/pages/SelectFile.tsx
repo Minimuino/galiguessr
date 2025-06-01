@@ -5,7 +5,7 @@
  * See LICENSE file in the root directory of this project or at <https://www.gnu.org/licenses/gpl-3.0>.
  */
 
-import type { FeatureCollection } from "geojson";
+import type { Feature, FeatureCollection, GeoJsonProperties } from "geojson";
 import { useCallback, useState, type ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,7 @@ export default function SelectFile() {
       try {
         const content = e.target?.result as string;
         const featureCollection = JSON.parse(content) as FeatureCollection;
-        featureCollection.features.forEach((feature, index) => feature.id = index);
+        featureCollection.features.forEach(sanitizeFeatures);
         setFileContent(featureCollection);
       } catch (err) {
         setError("Failed to parse JSON file");
@@ -52,28 +52,34 @@ export default function SelectFile() {
   };
 
   return (
-    <div className="flex flex-col items-center p-10">
+    <div className="flex flex-col items-center p-10 gap-8">
+      <label className="text-xl"><b>Map Quiz Generator</b></label>
       <form
-        className="flex flex-col items-center gap-4"
+        className="flex flex-col items-left gap-4"
         onSubmit={handleSubmit}
       >
-        <label><b>Select a valid GeoJSON File</b></label>
-        <input
-          type="file"
-          accept=".json,.geojson"
-          onChange={handleFileChange}
-        />
-        <select id="mode" name="mode">
-          {Object.values(Mode)
-            .map((mode, index: number) => (
-              <option
-                value={mode}
-                key={index}>
-                {t("modes." + mode, { lng: 'en' })}
-              </option>
-            ))
-          }
-        </select>
+        <div className="flex flex-row gap-5">
+          <label>Select a valid GeoJSON File: </label>
+          <input
+            type="file"
+            accept=".json,.geojson"
+            onChange={handleFileChange}
+          />
+        </div>
+        <div className="flex flex-row gap-5">
+          <label>Select quiz mode: </label>
+          <select id="mode" name="mode">
+            {Object.values(Mode)
+              .map((mode, index: number) => (
+                <option
+                  value={mode}
+                  key={index}>
+                  {t("modes." + mode, { lng: 'en' })}
+                </option>
+              ))
+            }
+          </select>
+        </div>
         <button
           className="border border-solid border-black p-2"
           type="submit"
@@ -86,4 +92,11 @@ export default function SelectFile() {
 
     </div>
   );
+};
+
+const sanitizeFeatures = (feature: Feature, index: number) => {
+  const featureProperties: GeoJsonProperties = feature.properties || { name: "Missing feature name" };
+  const featureName = featureProperties[Object.keys(featureProperties).find(key => key.toLowerCase() === "name") || "name"] as string;
+  feature.id = index;
+  feature.properties = { name: featureName || "Missing feature name" };
 };

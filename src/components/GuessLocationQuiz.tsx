@@ -53,7 +53,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
   const { t } = useTranslation();
 
   const handleMouseClick = (event: MapLayerMouseEvent) => {
-    if (!userGuess) {
+    if (!userGuess && features.length > 0) {
       setUserGuess(event.lngLat);
     }
   };
@@ -134,16 +134,18 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
           </>
         )}
       </Map>
-      <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
-        <QuestionLabel
-          textToDisplay={features[features.length - 1]?.properties?.name as string}
-          disabled={userGuess != null}
-        />
-        <StatusLabel
-          current={data.features.length - features.length + 1}
-          total={data.features.length}
-        />
-      </div>
+      {features.length > 0 && (
+        <div className="absolute bottom-[85%] sm:bottom-[15%] left-50 sm:left-[10%]">
+          <QuestionLabel
+            textToDisplay={features[features.length - 1]?.properties?.name as string}
+            disabled={userGuess != null}
+          />
+          <StatusLabel
+            current={data.features.length - features.length + 1}
+            total={data.features.length}
+          />
+        </div>
+      )}
       {userGuess && (
         <div className="absolute bottom-[6%] sm:bottom-[10%] flex flex-col items-center gap-2 text-2xl pointer-events-none">
           <DistanceLabel distance={currentDistanceKm} />
@@ -158,6 +160,7 @@ export default function GuessLocationQuiz({ data, datasetName, onResetGame }: Pr
       )}
       <GameOverModal
         totalDistanceKm={totalDistanceKm}
+        numberOfQuestions={data.features.length}
         datasetName={datasetName}
         modeName={Mode.GuessLocation}
         playAgainCallback={onResetGame}

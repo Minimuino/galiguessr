@@ -25,6 +25,7 @@
   },
   "gameovermodal": {
     "totalDistance": "Erro acumulado total:",
+    "distanceAverage": "{{avg}} km de media",
     "finalScore": "A túa puntuación:",
     "share": "Compartir en redes",
     "copiedToClipboard": "Enlace copiado ao portapapeis",

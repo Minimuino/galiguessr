@@ -84,7 +84,7 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
         onClick={(mode === Mode.PointAndClick) ? handleMouseClick : undefined}
         highlightedFeatureId={(mode === Mode.WriteName) ? featureIds[featureIds.length - 1] : undefined}
       />
-      {mode === Mode.PointAndClick && (
+      {mode === Mode.PointAndClick && featureIds.length > 0 && (
         <div className="absolute bottom-[84%] sm:bottom-[15%] left-50 sm:left-[10%]">
           <QuestionLabel
             textToDisplay={data.features.find(feature => feature.id === featureIds[featureIds.length - 1])?.properties?.name as string}
@@ -95,7 +95,7 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
           />
         </div>
       )}
-      {mode === Mode.WriteName && (
+      {mode === Mode.WriteName && featureIds.length > 0 && (
         <div className="absolute bottom-0 sm:bottom-[15%] left-50 sm:left-[10%] pointer-events-none sm:pointer-events-auto overflow-clip sm:overflow-visible py-3 pb-[calc(env(safe-area-inset-bottom)+4px)]">
           <QuestionHistory
             entries={questionHistory}
@@ -107,6 +107,7 @@ export default function StandardQuiz({ data, mode, datasetName, onResetGame }: P
       )}
       <GameOverModal
         score={rightGuessFeatureIds.length}
+        numberOfQuestions={data.features.length}
         datasetName={datasetName}
         modeName={mode}
         playAgainCallback={onResetGame}

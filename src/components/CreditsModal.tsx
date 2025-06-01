@@ -15,6 +15,10 @@ interface Props {
 export default function CreditsModal({ ref }: Props) {
   const { t } = useTranslation();
 
+  const closeModal = () => {
+    ref.current?.close();
+  };
+
   return (
     <dialog
       className="overflow-visible backdrop:bg-black/85 bg-transparent"
@@ -43,6 +47,12 @@ export default function CreditsModal({ ref }: Props) {
           onClick={() => ref.current?.close()}
         >
           {t("back")}
+        </button>
+        <button
+          className="close-button"
+          onClick={closeModal}
+        >
+          X
         </button>
       </div>
     </dialog >
