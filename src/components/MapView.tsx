@@ -87,9 +87,9 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
   const onTouchEnd = (event: MapLayerTouchEvent) => {
     const { target } = event;
     if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+      window.clearTimeout(timeoutRef.current);
     }
-    timeoutRef.current = setTimeout(() => {
+    timeoutRef.current = window.setTimeout(() => {
       if (hoveredFeatureId.current) {
         target.setFeatureState(
           { source: "hoverable", id: hoveredFeatureId.current },
@@ -103,7 +103,7 @@ export default function MapView({ data, pendingGuessFeatures, rightGuessFeatures
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+        window.clearTimeout(timeoutRef.current);
       }
     };
   }, []);

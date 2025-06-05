@@ -156,14 +156,14 @@ export default function Home() {
         </a>
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://github.com/Minimuino/galiguessr"
+          href={`mailto:${import.meta.env.VITE_SUPPORT_EMAIL}`}
           target="_blank"
           rel="noopener"
         >
           <img
             aria-hidden
             src="./email.svg"
-            alt="Error icon"
+            alt="Email icon"
             width={18}
             height={16}
           />
