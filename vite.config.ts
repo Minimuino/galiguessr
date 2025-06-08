@@ -14,7 +14,16 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
 
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      {
+        name: "custom-html-tags-injector",
+        transformIndexHtml(html) {
+          const tags = env.VITE_CUSTOM_HTML_TAGS || "";
+          return html.replace("<!-- INJECT_CUSTOM_TAGS -->", tags);
+        }
+      }
+    ],
     base: "/galiguessr/",
     define: {
       "process.env": {

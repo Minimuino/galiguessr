@@ -41,6 +41,7 @@ jobs:
         run: npm run build
         env:
           VITE_SUPPORT_EMAIL: ${{ secrets.SUPPORT_EMAIL }}
+          VITE_CUSTOM_HTML_TAGS: ${{ secrets.CUSTOM_HTML_TAGS }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
